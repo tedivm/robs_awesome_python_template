@@ -9,6 +9,7 @@ INCLUDE_CELERY={% if cookiecutter.include_celery == "y" %}True{% else %}False{% 
 INCLUDE_FASTAPI={% if cookiecutter.include_fastapi == "y" %}True{% else %}False{% endif %}
 INCLUDE_DOCKER={% if cookiecutter.include_docker == "y" %}True{% else %}False{% endif %}
 INCLUDE_SQLALCHEMY={% if cookiecutter.include_sqlalchemy == "y" %}True{% else %}False{% endif %}
+INCLUDE_GITHUB_ACTIONS={% if cookiecutter.include_github_actions == "y" %}True{% else %}False{% endif %}
 PACKAGE_SLUG="{{cookiecutter.__package_slug}}"
 
 remove_paths=set([])
@@ -45,6 +46,9 @@ if not INCLUDE_DOCKER:
 if not INCLUDE_DOCKER or len(docker_containers) < 1:
     remove_paths.add(f'.github/workflows/docker.yaml')
     remove_paths.add(f'docker')
+
+if not INCLUDE_GITHUB_ACTIONS:
+    remove_paths.add(f'.github')
 
 for path in remove_paths:
     path = path.strip()
