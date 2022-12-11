@@ -11,6 +11,7 @@
   ],
   "include_cli": "y/N",
   "include_fastapi": "y/N",
+  "include_sqlalchemy": "y/N",
   "include_celery": "y/N",
   "include_docker": "y/N",
   "publish_to_pypi": "y/N",

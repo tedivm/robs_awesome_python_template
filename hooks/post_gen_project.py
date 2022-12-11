@@ -8,6 +8,7 @@ INCLUDE_CLI={% if cookiecutter.include_cli == "y" %}True{% else %}False{% endif 
 INCLUDE_CELERY={% if cookiecutter.include_celery == "y" %}True{% else %}False{% endif %}
 INCLUDE_FASTAPI={% if cookiecutter.include_fastapi == "y" %}True{% else %}False{% endif %}
 INCLUDE_DOCKER={% if cookiecutter.include_docker == "y" %}True{% else %}False{% endif %}
+INCLUDE_SQLALCHEMY={% if cookiecutter.include_sqlalchemy == "y" %}True{% else %}False{% endif %}
 PACKAGE_SLUG="{{cookiecutter.__package_slug}}"
 
 remove_paths=set([])
@@ -27,6 +28,11 @@ else:
     remove_paths.add(f'{PACKAGE_SLUG}/celery.py')
     remove_paths.add(f'dockerfile.celery')
     remove_paths.add(f'docker/celery')
+
+if not INCLUDE_SQLALCHEMY:
+    remove_paths.add(f'{PACKAGE_SLUG}/models')
+    remove_paths.add(f'db')
+    remove_paths.add(f'alembic.ini')
 
 if not INCLUDE_CLI:
     remove_paths.add(f'{PACKAGE_SLUG}/cli.py')
