@@ -59,6 +59,7 @@ def run_migrations_online() -> None:
     """
     connectable = engine_from_config(
         {'db.url':settings.database_url, 'db.echo':'True'},
+        prefix="db.",
         poolclass=pool.NullPool,
     )
 

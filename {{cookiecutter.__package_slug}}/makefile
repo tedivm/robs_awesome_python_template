@@ -91,3 +91,19 @@ requirements-dev.txt: $(VENV_PACKAGE_CHECK) pyproject.toml
 .PHONY: build
 build: $(VENV_PACKAGE_CHECK)
 	$(PYTHON) -m build
+
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+
+#
+# Database
+#
+
+.PHONY: create_migration
+create_migration:
+	@if [ -z "$(MESSAGE)" ]; then echo "Please add a message parameter for the migration (make create_migration MESSAGE=\"database migration notes\")."; exit 1; fi
+	rm $(MIGRATION_DATABASE) | true
+	. .venv/bin/activate && DATABASE_URL=sqlite:///$(MIGRATION_DATABASE) python -m alembic upgrade head
+	. .venv/bin/activate && DATABASE_URL=sqlite:///$(MIGRATION_DATABASE) python -m alembic revision --autogenerate -m "$(MESSAGE)"
+	rm $(MIGRATION_DATABASE)
+
+{% endif %}
