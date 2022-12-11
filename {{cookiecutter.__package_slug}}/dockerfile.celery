@@ -1,0 +1,9 @@
+FROM ghcr.io/multi-py/python-celery:py{{ cookiecutter.__python_short_version }}-slim-LATEST
+
+ENV APP_MODULE={{ cookiecutter.__package_slug }}.celery:celery
+
+COPY requirements.txt /requirements.txt
+RUN pip install --no-cache-dir -r /requirements.txt
+
+COPY ./docker/celery/prestart.sh /app/prestart.sh
+COPY ./{{ cookiecutter.__package_slug }} /app/{{ cookiecutter.__package_slug }}

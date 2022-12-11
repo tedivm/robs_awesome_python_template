@@ -1,0 +1,19 @@
+{
+  "package_name": "",
+  "author_name": "",
+  "python_version": "3.10.9",
+  "license": [
+    "All Rights Reserved",
+    "MIT license",
+    "BSD license",
+    "Apache Software License 2.0",
+    "GNU General Public License v3"
+  ],
+  "include_cli": "y/N",
+  "include_fastapi": "y/N",
+  "include_celery": "y/N",
+  "include_docker": "y/N",
+  "publish_to_pypi": "y/N",
+  "__package_slug": "{{ cookiecutter.package_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "__python_short_version": "{{ cookiecutter.python_version.split('.')[:2]|join('.') }}"
+}

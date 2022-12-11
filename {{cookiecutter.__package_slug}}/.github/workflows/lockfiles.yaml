@@ -1,0 +1,36 @@
+name: Update Dependencies and Push to Github
+
+on:
+  # Allow API to be hit to trigger workflow.
+  workflow_dispatch:
+
+  # Every Monday at 1PM UTC (7AM EST)
+  schedule:
+    - cron: "0 11 * * 1"
+
+jobs:
+  push-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get Python Version from File
+        id: python_version
+        run: echo "::set-output name=version::$(cat VERSION)"
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: {% raw %}${{ steps.python_version.outputs.version }}{% endraw %}
+
+      - name: "Update Lockfiles and Open PR"
+        uses: tedivm/action-python-lockfile-update@v1
+        with:
+          pip_extras: "dev"
+          # This key will bypass workflow limitations to ensure tests are run.
+          # deploy_key: {% raw %}${{ secrets.WRITEABLE_DEPLOY_KEY }}{% endraw %}
+
+        env:
+          # Needed to open pull request- automatically set for all actions.
+          GITHUB_TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}

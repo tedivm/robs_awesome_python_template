@@ -1,0 +1,24 @@
+name: Black Formatting
+
+on:
+  push:
+
+jobs:
+  black:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get Python Version from File
+        id: python_version
+        run: echo "::set-output name=version::$(cat VERSION)"
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: {% raw %}${{ steps.python_version.outputs.version }}{% endraw %}
+
+      - name: Install Dependencies
+        run: make install
+
+      - name: Test Formatting
+        run: make black_check

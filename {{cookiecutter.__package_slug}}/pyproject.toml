@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0", "versioneer>=0.25"]
+build-backend = "setuptools.build_meta"
+
+[tool.isort]
+profile = "black"
+skip = [".venv"]
+src_paths = ["{{cookiecutter.__package_slug}}", "tests"]
+
+[tool.black]
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | \.env
+    | _build
+    | buck-out
+    | build
+    | dist
+  )
+)
+'''
+line-length = 120
+target-version = ['py38', 'py39', 'py310', 'py311']
