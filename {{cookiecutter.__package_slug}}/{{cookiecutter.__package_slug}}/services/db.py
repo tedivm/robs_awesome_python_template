@@ -18,7 +18,7 @@ for find, replace in engine_mappings.items():
     db_url = db_url.replace(find, replace)
 
 
-engine = create_async_engine(db_url, future=True, echo=True)
+engine = create_async_engine(db_url, future=True, echo=settings.debug)
 
 
 @asynccontextmanager
