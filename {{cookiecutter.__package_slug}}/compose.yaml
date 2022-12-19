@@ -1,0 +1,96 @@
+services:
+
+{%- if cookiecutter.include_fastapi == "y" %}
+  www:
+    build:
+      dockerfile: ./dockerfile.www
+    volumes:
+      - "./{{cookiecutter.__package_slug}}:/app/{{cookiecutter.__package_slug}}"
+      - "./db:/app/db"
+      - "./docker/www/prestart.sh:/app/prestart.sh"
+    environment:
+      IS_DEV: true
+      RELOAD: true
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+      DATABASE_URL: postgresql://main:main12345@db/main
+{%- endif %}
+{%- if cookiecutter.include_celery == "y" %}
+      CELERY_BROKER: redis://redis:6379/0
+{%- endif %}
+{%- endif %}
+{%- if cookiecutter.include_sqlalchemy == "y" or cookiecutter.include_celery == "y" %}
+    depends_on:
+{%- endif %}
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+      - db
+{%- endif %}
+{%- if cookiecutter.include_celery == "y" %}
+      - redis
+{%- endif %}
+
+{% if cookiecutter.include_celery == "y" %}
+  celery-scheduler:
+    build:
+      dockerfile: ./dockerfile.celery
+    volumes:
+      - "./{{cookiecutter.__package_slug}}:/app/{{cookiecutter.__package_slug}}"
+      - "./db:/app/db"
+      - "./docker/celery/prestart.sh:/app/prestart.sh"
+    environment:
+      IS_DEV: true
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+      DATABASE_URL: postgresql://main:main12345@db/main
+{%- endif %}
+{%- if cookiecutter.include_celery == "y" %}
+      CELERY_BROKER: redis://redis:6379/0
+{%- endif %}
+{%- if cookiecutter.include_sqlalchemy == "y" or cookiecutter.include_celery == "y" %}
+    depends_on:
+{%- endif %}
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+      - db
+{%- endif %}
+{%- if cookiecutter.include_celery == "y" %}
+      - redis
+{%- endif %}
+
+  celery-node:
+    build:
+      dockerfile: ./dockerfile.celery
+    volumes:
+      - "./{{cookiecutter.__package_slug}}:/app/{{cookiecutter.__package_slug}}"
+      - "./db:/app/db"
+      - "./docker/celery/prestart.sh:/app/prestart.sh"
+    environment:
+      IS_DEV: true
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+      DATABASE_URL: postgresql://main:main12345@db/main
+{%- endif %}
+{%- if cookiecutter.include_celery == "y" %}
+      CELERY_BROKER: redis://redis:6379/0
+{%- endif %}
+{%- endif %}
+{%- if cookiecutter.include_sqlalchemy == "y" or cookiecutter.include_celery == "y" %}
+    depends_on:
+{%- endif %}
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+      - db
+{%- endif %}
+{%- if cookiecutter.include_celery == "y" %}
+      - redis
+{%- endif %}
+
+{% if cookiecutter.include_celery == "y" or cookiecutter.include_dogpile == "y" %}
+  redis:
+    image: redis
+{%- endif %}
+
+{% if cookiecutter.include_sqlalchemy == "y" %}
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: main12345
+      POSTGRES_USER: main
+      POSTGRES_DB: main
+{%- endif %}

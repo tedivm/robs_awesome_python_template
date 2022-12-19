@@ -12,6 +12,8 @@
   "include_cli": "y/N",
   "include_fastapi": "y/N",
   "include_sqlalchemy": "y/N",
+  "include_jinja2": "y/N",
+  "include_dogpile": "y/N",
   "include_celery": "y/N",
   "include_docker": "y/N",
   "include_github_actions": "y/N",

@@ -1,21 +1,49 @@
 SHELL := /bin/bash
-PYTHON := . .venv/bin/activate && python
-PYTHON_VERSION := $(shell cat .python-version)
-PYTHON_SHORT_VERSION := $(shell cat .python-version | grep -o '[0-9].[0-9]*')
-VENV_PACKAGE_CHECK := .venv/lib/python$(PYTHON_SHORT_VERSION)/site-packages/piptools/
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+MIGRATION_DATABASE:=./migrate.db
+{% endif %}
+PACKAGE_SLUG={{cookiecutter.__package_slug}}
+ifdef CI
+	PYTHON_PYENV :=
+	PYTHON_VERSION := $(shell python --version|cut -d" " -f2)
+else
+	PYTHON_PYENV := pyenv
+	PYTHON_VERSION := $(shell cat .python-version)
+endif
+PYTHON_SHORT_VERSION := $(shell echo $(PYTHON_VERSION) | grep -o '[0-9].[0-9]*')
+
+ifeq ($(USE_SYSTEM_PYTHON), true)
+	PYTHON_PACKAGE_PATH:=$(shell python -c "import sys; print(sys.path[-1])")
+	PYTHON := python
+	PYTHON_VENV :=
+else
+	PYTHON_PACKAGE_PATH:=.venv/lib/python$(PYTHON_SHORT_VERSION)/site-packages
+	PYTHON := . .venv/bin/activate && python
+	PYTHON_VENV := .venv
+endif
+
+# Used to confirm that pip has run at least once
+PACKAGE_CHECK:=$(PYTHON_PACKAGE_PATH)/piptools
+PYTHON_DEPS := $(PACKAGE_CHECK)
 
 
 .PHONY: all
-all: $(VENV_PACKAGE_CHECK)
+all: $(PACKAGE_CHECK)
+
+.PHONY: install
+install: $(PYTHON_PYENV) $(PYTHON_VENV) pip
 
 .venv:
 	python -m venv .venv
 
-.PHONY: install
-install:
+.PHONY: pyenv
+pyenv:
 	pyenv install --skip-existing $(PYTHON_VERSION)
 
-$(VENV_PACKAGE_CHECK): install .venv
+pip: $(PYTHON_VENV)
+	$(PYTHON) -m pip install -e .[dev]
+
+$(PACKAGE_CHECK): $(PYTHON_VENV)
 	$(PYTHON) -m pip install -e .[dev]
 
 
@@ -24,9 +52,7 @@ $(VENV_PACKAGE_CHECK): install .venv
 #
 
 .PHONY: pretty
-pretty:
-	$(PYTHON) -m black . && \
-	isort .
+pretty: black_fixes isort_fixes
 
 .PHONY: black_fixes
 black_fixes:
@@ -46,11 +72,11 @@ tests: install pytest isort_check black_check mypy_check
 
 .PHONY: pytest
 pytest:
-	$(PYTHON) -m pytest --cov=./{{cookiecutter.__package_slug}} --cov-report=term-missing tests
+	$(PYTHON) -m pytest --cov=./${PACKAGE_SLUG} --cov-report=term-missing tests
 
 .PHONY: pytest_loud
 pytest_loud:
-	$(PYTHON) -m pytest -s --cov=./{{cookiecutter.__package_slug}} --cov-report=term-missing tests
+	$(PYTHON) -m pytest -s --cov=./${PACKAGE_SLUG} --cov-report=term-missing tests
 
 .PHONY: isort_check
 isort_check:
@@ -62,7 +88,7 @@ black_check:
 
 .PHONY: mypy_check
 mypy_check:
-	$(PYTHON) -m mypy {{cookiecutter.__package_slug}}
+	$(PYTHON) -m mypy ${PACKAGE_SLUG}
 
 
 #
@@ -77,10 +103,10 @@ rebuild_dependencies:
 .PHONY: dependencies
 dependencies: requirements.txt requirements-dev.txt
 
-requirements.txt: $(VENV_PACKAGE_CHECK) pyproject.toml
+requirements.txt: $(PACKAGE_CHECK) pyproject.toml
 	$(PYTHON) -m piptools compile --upgrade --output-file=requirements.txt pyproject.toml
 
-requirements-dev.txt: $(VENV_PACKAGE_CHECK) pyproject.toml
+requirements-dev.txt: $(PACKAGE_CHECK) pyproject.toml
 	$(PYTHON) -m piptools compile --upgrade --output-file=requirements-dev.txt --extra=dev pyproject.toml
 
 
@@ -89,7 +115,7 @@ requirements-dev.txt: $(VENV_PACKAGE_CHECK) pyproject.toml
 #
 
 .PHONY: build
-build: $(VENV_PACKAGE_CHECK)
+build: $(PACKAGE_CHECK)
 	$(PYTHON) -m build
 
 {%- if cookiecutter.include_sqlalchemy == "y" %}
@@ -97,6 +123,17 @@ build: $(VENV_PACKAGE_CHECK)
 #
 # Database
 #
+
+.PHONY: run_migrations
+run_migrations:
+	$(PYTHON) -m alembic upgrade head
+
+.PHONY: reset_db
+reset_db: clear_db run_migrations
+
+.PHONY: clear_db
+clear_db:
+	rm -Rf test.db*
 
 .PHONY: create_migration
 create_migration:

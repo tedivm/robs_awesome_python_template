@@ -1,0 +1,15 @@
+# Ignore everything by default.
+*
+
+# Explicitly define directories and files to pass into docker.
+!/{{cookiecutter.__package_slug}}
+!/.python-version
+!/db
+!/docker
+!/alembic.ini
+!/LICENSE
+!/makefile
+!/pyproject.toml
+!/README.md
+!/setup.*
+!/requirements*

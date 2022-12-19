@@ -11,7 +11,7 @@ jobs:
 
       - name: Get Python Version from File
         id: python_version
-        run: echo "::set-output name=version::$(cat VERSION)"
+        run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
 
       - uses: actions/setup-python@v3
         with:
