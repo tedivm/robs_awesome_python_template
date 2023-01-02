@@ -24,7 +24,7 @@ jobs:
         id: python_version
         run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
 
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: {% raw %}${{ steps.python_version.outputs.version }}{% endraw %}
 
