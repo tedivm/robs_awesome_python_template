@@ -26,3 +26,10 @@ async def get_session() -> AsyncSession:
     async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
     async with async_session() as session:
         yield session
+
+
+{%- if cookiecutter.include_fastapi == "y" %}
+async def get_session_depends() -> AsyncSession:
+    async with get_session() as session:
+        yield session
+{%- endif %}

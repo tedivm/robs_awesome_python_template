@@ -36,6 +36,7 @@ else:
 if not INCLUDE_SQLALCHEMY:
     remove_paths.add(f'{PACKAGE_SLUG}/models')
     remove_paths.add('db')
+    remove_paths.add('conf/db.py')
     remove_paths.add('services/db.py')
     remove_paths.add('alembic.ini')
 

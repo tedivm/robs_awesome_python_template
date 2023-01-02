@@ -5,7 +5,9 @@ from sqlalchemy import engine_from_config, pool
 
 # This has to be a wildcard in order to pull in all models for alembic.
 from {{cookiecutter.__package_slug}}.models import *
-from {{cookiecutter.__package_slug}}.settings import settings
+from {{cookiecutter.__package_slug}}.conf.db import DatabaseSettings
+
+settings = DatabaseSettings()
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

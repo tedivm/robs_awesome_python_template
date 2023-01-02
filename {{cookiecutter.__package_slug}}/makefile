@@ -142,5 +142,8 @@ create_migration:
 	. .venv/bin/activate && DATABASE_URL=sqlite:///$(MIGRATION_DATABASE) python -m alembic upgrade head
 	. .venv/bin/activate && DATABASE_URL=sqlite:///$(MIGRATION_DATABASE) python -m alembic revision --autogenerate -m "$(MESSAGE)"
 	rm $(MIGRATION_DATABASE)
+	$(PYTHON) -m isort ./db
+	$(PYTHON) -m black ./db
+
 
 {% endif %}
