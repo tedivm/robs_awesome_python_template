@@ -36,8 +36,8 @@ else:
 if not INCLUDE_SQLALCHEMY:
     remove_paths.add(f'{PACKAGE_SLUG}/models')
     remove_paths.add('db')
-    remove_paths.add('conf/db.py')
-    remove_paths.add('services/db.py')
+    remove_paths.add(f'{PACKAGE_SLUG}/conf/db.py')
+    remove_paths.add(f'{PACKAGE_SLUG}/services/db.py')
     remove_paths.add('alembic.ini')
 
 if not INCLUDE_CLI:
@@ -45,6 +45,7 @@ if not INCLUDE_CLI:
 
 if not INCLUDE_JINJA2:
     remove_paths.add(f'{PACKAGE_SLUG}/templates')
+    remove_paths.add(f'{PACKAGE_SLUG}/services/jinja.py')
 
 if not INCLUDE_DOGPILE:
     remove_paths.add(f'{PACKAGE_SLUG}/services/cache.py')

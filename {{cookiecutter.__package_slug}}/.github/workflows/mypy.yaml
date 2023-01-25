@@ -20,5 +20,5 @@ jobs:
       - name: Install Dependencies
         run: make install
 
-      - name: Test Formatting
+      - name: Test Typing
         run: make mypy_check
