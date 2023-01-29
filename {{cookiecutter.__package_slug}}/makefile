@@ -62,13 +62,17 @@ black_fixes:
 isort_fixes:
 	$(PYTHON) -m isort .
 
+.PHONY: dapperdata_fixes
+dapperdata_fixes:
+	$(PYTHON) -m dapperdata.cli pretty . --no-dry-run
+
 
 #
 # Testing
 #
 
 .PHONY: tests
-tests: install pytest isort_check black_check mypy_check
+tests: install pytest isort_check black_check mypy_check dapperdata_check
 
 .PHONY: pytest
 pytest:
@@ -90,6 +94,9 @@ black_check:
 mypy_check:
 	$(PYTHON) -m mypy ${PACKAGE_SLUG}
 
+.PHONY: dapperdata_check
+dapperdata_check:
+	$(PYTHON) -m dapperdata.cli pretty .
 
 #
 # Dependencies

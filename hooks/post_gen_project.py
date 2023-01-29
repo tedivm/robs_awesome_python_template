@@ -16,7 +16,7 @@ PACKAGE_SLUG="{{cookiecutter.__package_slug}}"
 
 remove_paths=set([])
 docker_containers=set([])
-
+CHECK_FOR_EMPTY_DIRS = [f'{PACKAGE_SLUG}/services']
 
 if INCLUDE_FASTAPI:
     docker_containers.add('www')
@@ -51,9 +51,10 @@ if not INCLUDE_DOGPILE:
     remove_paths.add(f'{PACKAGE_SLUG}/services/cache.py')
 
 if not INCLUDE_DOCKER:
+    remove_paths.add('.dockerignore')
+    remove_paths.add('compose.yaml')
     remove_paths.add('dockerfile.www')
     remove_paths.add('dockerfile.celery')
-    remove_paths.add('compose.yaml')
 
 if not INCLUDE_DOCKER or len(docker_containers) < 1:
     remove_paths.add('.github/workflows/docker.yaml')
@@ -69,6 +70,14 @@ for path in remove_paths:
             shutil.rmtree(path)
         else:
             os.unlink(path)
+
+# Check for empty directories
+for path in CHECK_FOR_EMPTY_DIRS:
+    path = path.strip()
+    if path and os.path.exists(path):
+        if os.path.isdir(path):
+            if len(os.listdir(path)) == 0:
+                shutil.rmtree(path)
 
 
 def run_command(command):
