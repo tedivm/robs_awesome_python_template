@@ -52,7 +52,7 @@ $(PACKAGE_CHECK): $(PYTHON_VENV)
 #
 
 .PHONY: pretty
-pretty: black_fixes isort_fixes
+pretty: black_fixes isort_fixes dapperdata_fixes
 
 .PHONY: black_fixes
 black_fixes:
@@ -98,6 +98,8 @@ mypy_check:
 dapperdata_check:
 	$(PYTHON) -m dapperdata.cli pretty .
 
+
+{%- if cookiecutter.include_requirements_files == "y" %}
 #
 # Dependencies
 #
@@ -117,6 +119,7 @@ requirements-dev.txt: $(PACKAGE_CHECK) pyproject.toml
 	$(PYTHON) -m piptools compile --upgrade --output-file=requirements-dev.txt --extra=dev pyproject.toml
 
 
+{% endif %}
 #
 # Packaging
 #

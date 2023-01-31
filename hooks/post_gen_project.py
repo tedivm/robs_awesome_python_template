@@ -12,6 +12,7 @@ INCLUDE_JINJA2={% if cookiecutter.include_jinja2 == "y" %}True{% else %}False{% 
 INCLUDE_DOGPILE={% if cookiecutter.include_dogpile == "y" %}True{% else %}False{% endif %}
 INCLUDE_SQLALCHEMY={% if cookiecutter.include_sqlalchemy == "y" %}True{% else %}False{% endif %}
 INCLUDE_GITHUB_ACTIONS={% if cookiecutter.include_github_actions == "y" %}True{% else %}False{% endif %}
+INCLUDE_REQUIREMENTS_FILES={% if cookiecutter.include_requirements_files == "y" %}True{% else %}False{% endif %}
 PACKAGE_SLUG="{{cookiecutter.__package_slug}}"
 
 remove_paths=set([])
@@ -63,6 +64,9 @@ if not INCLUDE_DOCKER or len(docker_containers) < 1:
 if not INCLUDE_GITHUB_ACTIONS:
     remove_paths.add('.github')
 
+if not INCLUDE_REQUIREMENTS_FILES:
+    remove_paths.add('.github/workflows/lockfiles.yaml')
+
 for path in remove_paths:
     path = path.strip()
     if path and os.path.exists(path):
@@ -92,5 +96,6 @@ def run_command(command):
         sys.exit(returncode)
 
 
-run_command('make dependencies')
+if INCLUDE_REQUIREMENTS_FILES:
+    run_command('make dependencies')
 run_command('make pretty')
