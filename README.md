@@ -1,5 +1,20 @@
 # tedivm's Awesome Python Template
 
+This Awesome Python Template is extremely customizable- it can work for the smallest library to the largest application.
+
+- [tedivm's Awesome Python Template](#tedivms-awesome-python-template)
+  - [Usage](#usage)
+  - [Core Functionality](#core-functionality)
+  - [Optional Libraries](#optional-libraries)
+    - [FastAPI](#fastapi)
+    - [Celery](#celery)
+    - [Typer and Click](#typer-and-click)
+    - [SQLAlchemy and Alembic](#sqlalchemy-and-alembic)
+    - [Docker](#docker)
+    - [Github Actions](#github-actions)
+  - [Examples](#examples)
+
+
 ## Usage
 
 1. Install `cookiecutter`.
@@ -14,16 +29,16 @@ The rest of the process is interactive- you'll be asked for a project name and a
 
 ## Core Functionality
 
-* Development Management using [Makefiles](https://www.gnu.org/software/make/manual/html_node/Introduction.html).
-* Configuration Management with [Pydantic](https://docs.pydantic.dev/usage/settings/).
-* PyPI Publishing from Github Tags using [versioneer](https://pypi.org/project/versioneer/).
-* Formatting with [Black](https://pypi.org/project/black/).
-* Import Sorting with [isort](https://pypi.org/project/isort/).
-* Typing with [mypy](https://mypy.readthedocs.io/en/stable/).
-* Lockfiles (requirements.txt) with [pip-tools](https://pypi.org/project/pip-tools/).
-* Testing with [pytest](https://docs.pytest.org/en/7.2.x/).
-* CI/CD using [Github Actions](https://docs.github.com/en/actions).
-* Multiple license options.
+- Development Management using [Makefiles](https://www.gnu.org/software/make/manual/html_node/Introduction.html).
+- Configuration Management with [Pydantic](https://docs.pydantic.dev/usage/settings/).
+- PyPI Publishing from Github Tags using [versioneer](https://pypi.org/project/versioneer/).
+- Formatting with [Black](https://pypi.org/project/black/).
+- Import Sorting with [isort](https://pypi.org/project/isort/).
+- Typing with [mypy](https://mypy.readthedocs.io/en/stable/).
+- Lockfiles (requirements.txt) with [pip-tools](https://pypi.org/project/pip-tools/).
+- Testing with [pytest](https://docs.pytest.org/en/7.2.x/).
+- CI/CD using [Github Actions](https://docs.github.com/en/actions).
+- Multiple license options.
 
 ## Optional Libraries
 
@@ -61,9 +76,19 @@ The images made by this template come from the [Multi-Py](https://github.com/mul
 
 Github Action Workflows are optionally created for a variety of tasks-
 
-* Formatting
-* Testing
-* Typing
-* Publishing Packages to PyPI
-* Pushing Images to GHCR
-* Updating Dependency Files
+- Formatting
+- Testing
+- Typing
+- Publishing Packages to PyPI
+- Pushing Images to GHCR
+- Updating Dependency Files
+
+## Examples
+
+Project examples are available in the [example repository](https://github.com/tedivm/tedivms_awesome_python_template_examples).
+
+- [Basic Library](https://github.com/tedivm/tedivms_awesome_python_template_examples/tree/main/library)- enables basic library features without the full scale applications.
+- [All Options Enabled](https://github.com/tedivm/tedivms_awesome_python_template_examples/tree/main/full)- includes every option and service.
+- [All Options Disabled](https://github.com/tedivm/tedivms_awesome_python_template_examples/tree/main/bare)- disabled every optional service for an extremely basic scaffold.
+
+These are just some options, as features can be mixed and matched to create numerous permutations.
