@@ -17,7 +17,7 @@ pip install {{ cookiecutter.package_name }}
 ## CLI
 
 ```bash
-{{ cookiecutter.__package_cli }} --help
+{{ cookiecutter.__package_slug }} --help
 ```
 
 {%- endif %}
