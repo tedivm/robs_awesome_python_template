@@ -1,8 +1,8 @@
-# tedivm's Awesome Python Template
+# Rob's Awesome Python Template
 
-This Awesome Python Template is extremely customizable- it can work for the smallest library to the largest application.
+Rob's Awesome Python Template is extremely customizable- it can work for the smallest library to the largest application.
 
-- [tedivm's Awesome Python Template](#tedivms-awesome-python-template)
+- [Rob's Awesome Python Template](#robs-awesome-python-template)
   - [Usage](#usage)
   - [Core Functionality](#core-functionality)
   - [Optional Libraries](#optional-libraries)
@@ -22,7 +22,7 @@ This Awesome Python Template is extremely customizable- it can work for the smal
 3. Run the cookiecutter command.
 
 ```bash
-cookiecutter gh:tedivm/tedivms_awesome_python_template
+cookiecutter gh:tedivm/robs_awesome_python_template
 ```
 
 The rest of the process is interactive- you'll be asked for a project name and about which features you want enabled, after which the project will be setup.
@@ -85,10 +85,10 @@ Github Action Workflows are optionally created for a variety of tasks-
 
 ## Examples
 
-Project examples are available in the [example repository](https://github.com/tedivm/tedivms_awesome_python_template_examples).
+Project examples are available in the [example repository](https://github.com/tedivm/robs_awesome_python_template_examples).
 
-- [Basic Library](https://github.com/tedivm/tedivms_awesome_python_template_examples/tree/main/library)- enables basic library features without the full scale applications.
-- [All Options Enabled](https://github.com/tedivm/tedivms_awesome_python_template_examples/tree/main/full)- includes every option and service.
-- [All Options Disabled](https://github.com/tedivm/tedivms_awesome_python_template_examples/tree/main/bare)- disabled every optional service for an extremely basic scaffold.
+- [Basic Library](https://github.com/tedivm/robs_awesome_python_template_examples/tree/main/library)- enables basic library features without the full scale applications.
+- [All Options Enabled](https://github.com/tedivm/robs_awesome_python_template_examples/tree/main/full)- includes every option and service.
+- [All Options Disabled](https://github.com/tedivm/robs_awesome_python_template_examples/tree/main/bare)- disabled every optional service for an extremely basic scaffold.
 
 These are just some options, as features can be mixed and matched to create numerous permutations.
