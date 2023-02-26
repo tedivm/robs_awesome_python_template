@@ -1,5 +1,6 @@
 # {{ cookiecutter.package_name }}
 
+{{cookiecutter.short_description}}
 
 {%- if cookiecutter.publish_to_pypi == "y" %}
 

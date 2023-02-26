@@ -17,7 +17,7 @@ write_to = "{{cookiecutter.__package_slug}}/_version.py"
 
 [project]
 authors = [{"name" = "{{cookiecutter.author_name}}"}]
-description = "A python library"
+description = "{{cookiecutter.short_description}}"
 dynamic = ["version", "readme"]
 license = {"file" = "LICENSE"}
 name = "{{cookiecutter.__package_slug}}"
