@@ -31,7 +31,7 @@ The rest of the process is interactive- you'll be asked for a project name and a
 
 - Development Management using [Makefiles](https://www.gnu.org/software/make/manual/html_node/Introduction.html).
 - Configuration Management with [Pydantic](https://docs.pydantic.dev/usage/settings/).
-- PyPI Publishing from Github Tags using [versioneer](https://pypi.org/project/versioneer/).
+- PyPI Publishing from Github Tags using [setuptools-scm](https://pypi.org/project/setuptools-scm/).
 - Formatting with [Black](https://pypi.org/project/black/).
 - Import Sorting with [isort](https://pypi.org/project/isort/).
 - Typing with [mypy](https://mypy.readthedocs.io/en/stable/).
@@ -39,6 +39,7 @@ The rest of the process is interactive- you'll be asked for a project name and a
 - Testing with [pytest](https://docs.pytest.org/en/7.2.x/).
 - CI/CD using [Github Actions](https://docs.github.com/en/actions).
 - Multiple license options.
+- Modern `pyproject.toml` without any legacy files.
 
 ## Optional Libraries
 
@@ -76,12 +77,12 @@ The images made by this template come from the [Multi-Py](https://github.com/mul
 
 Github Action Workflows are optionally created for a variety of tasks-
 
-- Formatting
+- Formatting Python, JSON, YAML, and TOML
 - Testing
 - Typing
 - Publishing Packages to PyPI
 - Pushing Images to GHCR
-- Updating Dependency Files
+- Updating Dependency (requirements.txt) Files
 
 ## Examples
 
