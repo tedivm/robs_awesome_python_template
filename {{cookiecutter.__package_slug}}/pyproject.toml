@@ -68,6 +68,7 @@ dev = [
   "pytest-cov",
   "pytest-pretty",
   "ruamel.yaml",
+  "toml-sort",
 ]
 
 {% if cookiecutter.include_cli == "y" %}

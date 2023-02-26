@@ -1,0 +1,20 @@
+name: TOML Formatting
+
+on:
+  push:
+
+jobs:
+  tomlsort:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version-file: .python-version
+
+      - name: Install Dependencies
+        run: make install
+
+      - name: Test Typing
+        run: make tomlsort_check
