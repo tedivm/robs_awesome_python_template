@@ -14,10 +14,12 @@ PYTHON_SHORT_VERSION := $(shell echo $(PYTHON_VERSION) | grep -o '[0-9].[0-9]*')
 
 ifeq ($(USE_SYSTEM_PYTHON), true)
 	PYTHON_PACKAGE_PATH:=$(shell python -c "import sys; print(sys.path[-1])")
+	PYTHON_ENV :=
 	PYTHON := python
 	PYTHON_VENV :=
 else
 	PYTHON_PACKAGE_PATH:=.venv/lib/python$(PYTHON_SHORT_VERSION)/site-packages
+	PYTHON_ENV :=  . .venv/bin/activate &&
 	PYTHON := . .venv/bin/activate && python
 	PYTHON_VENV := .venv
 endif
