@@ -108,5 +108,5 @@ def run_command(command):
 
 run_command('make all')
 if INCLUDE_REQUIREMENTS_FILES:
-    run_command('make dependencies')
+   run_command('make dependencies')
 run_command('make pretty')
