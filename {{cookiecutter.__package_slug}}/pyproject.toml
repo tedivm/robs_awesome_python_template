@@ -12,7 +12,8 @@ find = {}
 {{cookiecutter.__package_slug}} = ["py.typed"]
 
 [tool.setuptools_scm]
-write_to = "terraformer/_version.py"
+fallback_version = "0.0.0-dev"
+write_to = "{{cookiecutter.__package_slug}}/_version.py"
 
 [project]
 authors = [{"name" = "{{cookiecutter.author_name}}"}]
