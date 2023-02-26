@@ -96,6 +96,7 @@ exclude = '''
     | buck-out
     | build
     | dist
+    | {{cookiecutter.__package_slug}}/_version.py
   )
 )
 '''
