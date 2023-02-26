@@ -15,7 +15,7 @@ find = {}
 write_to = "terraformer/_version.py"
 
 [project]
-authors = [{"name" = "{{cookiecutter.author}}"}]
+authors = [{"name" = "{{cookiecutter.author_name}}"}]
 description = "A python library"
 dynamic = ["version", "readme"]
 license = {"file" = "LICENSE"}
