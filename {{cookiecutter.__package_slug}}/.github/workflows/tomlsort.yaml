@@ -2,6 +2,7 @@ name: TOML Formatting
 
 on:
   push:
+  pull_request:
 
 jobs:
   tomlsort:

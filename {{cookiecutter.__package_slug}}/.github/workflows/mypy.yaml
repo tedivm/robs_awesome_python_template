@@ -2,6 +2,7 @@ name: Mypy testing
 
 on:
   push:
+  pull_request:
 
 jobs:
   mypy:

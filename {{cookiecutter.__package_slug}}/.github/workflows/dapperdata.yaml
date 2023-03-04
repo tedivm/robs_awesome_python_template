@@ -2,6 +2,7 @@ name: Configuration File Formatting
 
 on:
   push:
+  pull_request:
 
 jobs:
   dapperdata:

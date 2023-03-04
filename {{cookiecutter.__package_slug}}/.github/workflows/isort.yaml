@@ -2,6 +2,7 @@ name: Import Sorting
 
 on:
   push:
+  pull_request:
 
 jobs:
   isort:

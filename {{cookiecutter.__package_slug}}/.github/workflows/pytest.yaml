@@ -2,6 +2,7 @@ name: PyTest
 
 on:
   push:
+  pull_request:
 
 env:
   COLUMNS: 120

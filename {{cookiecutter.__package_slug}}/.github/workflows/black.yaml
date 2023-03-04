@@ -2,6 +2,7 @@ name: Black Formatting
 
 on:
   push:
+  pull_request:
 
 jobs:
   black:
