@@ -18,9 +18,10 @@ write_to = "{{cookiecutter.__package_slug}}/_version.py"
 [project]
 authors = [{"name" = "{{cookiecutter.author_name}}"}]
 description = "{{cookiecutter.short_description}}"
-dynamic = ["version", "readme"]
+dynamic = ["version"]
 license = {"file" = "LICENSE"}
 name = "{{cookiecutter.__package_slug}}"
+readme = {file = "README.md", content-type = "text/markdown"}
 
 dependencies = [
 {%- if cookiecutter.include_sqlalchemy == "y" %}
