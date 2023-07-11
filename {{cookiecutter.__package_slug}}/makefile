@@ -53,8 +53,8 @@ $(PACKAGE_CHECK): $(PYTHON_VENV)
 # Formatting
 #
 
-#.PHONY: pretty
-#pretty: black_fixes isort_fixes dapperdata_fixes tomlsort_fixes
+.PHONY: pretty
+pretty: black_fixes isort_fixes dapperdata_fixes tomlsort_fixes
 
 .PHONY: black_fixes
 black_fixes:
