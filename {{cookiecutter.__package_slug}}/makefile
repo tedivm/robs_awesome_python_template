@@ -53,8 +53,8 @@ $(PACKAGE_CHECK): $(PYTHON_VENV)
 # Formatting
 #
 
-.PHONY: pretty
-pretty: black_fixes isort_fixes dapperdata_fixes tomlsort_fixes
+#.PHONY: pretty
+#pretty: black_fixes isort_fixes dapperdata_fixes tomlsort_fixes
 
 .PHONY: black_fixes
 black_fixes:
@@ -64,9 +64,9 @@ black_fixes:
 isort_fixes:
 	$(PYTHON) -m isort .
 
-#.PHONY: dapperdata_fixes
-#dapperdata_fixes:
-#	$(PYTHON) -m dapperdata.cli pretty . --no-dry-run
+.PHONY: dapperdata_fixes
+dapperdata_fixes:
+	$(PYTHON) -m dapperdata.cli pretty . --no-dry-run
 
 .PHONY: tomlsort_fixes
 tomlsort_fixes:
