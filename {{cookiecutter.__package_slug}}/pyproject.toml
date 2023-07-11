@@ -44,7 +44,8 @@ dependencies = [
 {%- if cookiecutter.include_sqlalchemy == "y" %}
   "psycopg2-binary",
 {%- endif %}
-  "pydantic",
+  "pydantic~=2.0",
+  "pydantic-settings",
 {%- if cookiecutter.include_sqlalchemy == "y" %}
   "SQLAlchemy",
 {%- endif %}
