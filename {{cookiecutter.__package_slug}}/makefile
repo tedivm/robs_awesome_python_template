@@ -64,9 +64,9 @@ black_fixes:
 isort_fixes:
 	$(PYTHON) -m isort .
 
-.PHONY: dapperdata_fixes
-dapperdata_fixes:
-	$(PYTHON) -m dapperdata.cli pretty . --no-dry-run
+#.PHONY: dapperdata_fixes
+#dapperdata_fixes:
+#	$(PYTHON) -m dapperdata.cli pretty . --no-dry-run
 
 .PHONY: tomlsort_fixes
 tomlsort_fixes:
