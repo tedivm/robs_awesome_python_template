@@ -42,14 +42,16 @@ install: $(PYTHON_PYENV) $(PYTHON_VENV) pip
 pyenv:
 	pyenv install --skip-existing $(PYTHON_VERSION)
 
+.PHONY: pip
 pip: $(PYTHON_VENV)
 	$(PYTHON) -m pip install -e .[dev]
 
 $(PACKAGE_CHECK): $(PYTHON_VENV)
 	$(PYTHON) -m pip install -e .[dev]
 
+.PHONY: pre-commit
 pre-commit:
-  pre-commit install
+	pre-commit install
 
 #
 # Formatting
