@@ -48,6 +48,8 @@ pip: $(PYTHON_VENV)
 $(PACKAGE_CHECK): $(PYTHON_VENV)
 	$(PYTHON) -m pip install -e .[dev]
 
+pre-commit:
+  pre-commit install
 
 #
 # Formatting

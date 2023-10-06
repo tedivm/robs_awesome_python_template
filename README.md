@@ -38,6 +38,7 @@ The rest of the process is interactive- you'll be asked for a project name and a
 - Lockfiles (requirements.txt) with [pip-tools](https://pypi.org/project/pip-tools/).
 - Testing with [pytest](https://docs.pytest.org/en/7.2.x/).
 - CI/CD using [Github Actions](https://docs.github.com/en/actions).
+- Precommit Hooks using the [precommit framework](https://pre-commit.com/).
 - Multiple license options.
 - Modern `pyproject.toml` without any legacy files.
 
