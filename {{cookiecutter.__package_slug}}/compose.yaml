@@ -8,6 +8,8 @@ services:
       - "./{{cookiecutter.__package_slug}}:/app/{{cookiecutter.__package_slug}}"
       - "./db:/app/db"
       - "./docker/www/prestart.sh:/app/prestart.sh"
+    ports:
+      - "80:80"
     environment:
       IS_DEV: true
       RELOAD: true
