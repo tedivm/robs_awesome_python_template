@@ -1,0 +1,23 @@
+repos:
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: make pytest_check
+        language: system
+      - id: isort
+        name: isort
+        entry: make isort_check
+        language: system
+      - id: black
+        name: black
+        entry: make black_check
+        language: system
+      - id: mypy
+        name: mypy
+        entry: make mypy_check
+        language: system
+      - id: tomlsort
+        name: tomlsort
+        entry: make tomlsort_check
+        language: system
