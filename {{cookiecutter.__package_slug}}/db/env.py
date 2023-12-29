@@ -4,7 +4,7 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 
 # This has to be a wildcard in order to pull in all models for alembic.
-from {{cookiecutter.__package_slug}}.models import *
+from {{cookiecutter.__package_slug}}.models import * # noqa: F403
 from {{cookiecutter.__package_slug}}.conf.db import DatabaseSettings
 
 settings = DatabaseSettings()
@@ -22,7 +22,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = base.Base.metadata
+target_metadata = base.Base.metadata # noqa: F405
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
