@@ -32,8 +32,7 @@ The rest of the process is interactive- you'll be asked for a project name and a
 - Development Management using [Makefiles](https://www.gnu.org/software/make/manual/html_node/Introduction.html).
 - Configuration Management with [Pydantic](https://docs.pydantic.dev/usage/settings/).
 - PyPI Publishing from Github Tags using [setuptools-scm](https://pypi.org/project/setuptools-scm/).
-- Formatting with [Black](https://pypi.org/project/black/).
-- Import Sorting with [isort](https://pypi.org/project/isort/).
+- Formatting and Linting with [Ruff](https://docs.astral.sh/ruff/).
 - Typing with [mypy](https://mypy.readthedocs.io/en/stable/).
 - Lockfiles (requirements.txt) with [pip-tools](https://pypi.org/project/pip-tools/).
 - Testing with [pytest](https://docs.pytest.org/en/7.2.x/).

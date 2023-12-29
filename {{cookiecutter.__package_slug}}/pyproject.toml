@@ -59,17 +59,16 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-  "black",
   "build",
   "dapperdata",
   "glom",
-  "isort",
   "mypy",
   "pip-tools",
   "pytest",
   "pytest-cov",
   "pytest-pretty",
   "ruamel.yaml",
+  "ruff",
   "toml-sort",
 ]
 
@@ -78,29 +77,5 @@ dev = [
 {{ cookiecutter.__package_slug }} = "{{ cookiecutter.__package_slug }}.cli:app"
 {% endif %}
 
-[tool.isort]
-profile = "black"
-skip = [".venv"]
-src_paths = ["{{cookiecutter.__package_slug}}", "tests"]
-
-[tool.black]
-exclude = '''
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | \.env
-    | _build
-    | buck-out
-    | build
-    | dist
-    | {{cookiecutter.__package_slug}}/_version.py
-  )
-)
-'''
+[tool.ruff]
 line-length = 120
-target-version = ['py38', 'py39', 'py310', 'py311']
