@@ -67,6 +67,10 @@ This template configures SQLAlchemy and Alembic to work together using a unified
 
 Projects with this template will have access to the Async SQLAlchemy engine.
 
+### Paracelsus
+
+[Paracelsus](https://github.com/tedivm/paracelsus) is a library that automatically generates diagrams of SQLAlchemy database schemas and injects them into documentation.
+
 ### Docker
 
 Docker Images are the standard for distributing and running applications. The Docker extensions to this project create containers for the other services that are enabled, such as FastAPI and Celery.

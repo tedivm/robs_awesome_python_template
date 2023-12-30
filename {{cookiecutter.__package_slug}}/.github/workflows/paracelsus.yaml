@@ -1,11 +1,11 @@
-name: Configuration File Formatting
+name: Paracelsus Diagrams
 
 on:
   push:
   pull_request:
 
 jobs:
-  dapperdata:
+  black:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,4 +18,4 @@ jobs:
         run: make install
 
       - name: Test Formatting
-        run: make dapperdata_check
+        run: make paracelsus_check

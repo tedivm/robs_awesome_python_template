@@ -63,6 +63,9 @@ dev = [
   "dapperdata",
   "glom",
   "mypy",
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+  "paracelsus",
+{%- endif %}
   "pip-tools",
   "pytest",
   "pytest-cov",

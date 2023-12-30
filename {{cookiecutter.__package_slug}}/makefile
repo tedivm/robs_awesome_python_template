@@ -57,8 +57,13 @@ pre-commit:
 # Formatting
 #
 
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+.PHONY: chores
+chores: ruff_fixes black_fixes dapperdata_fixes tomlsort_fixes document_schema
+{%- else %}
 .PHONY: chores
 chores: ruff_fixes black_fixes dapperdata_fixes tomlsort_fixes
+{%- endif %}
 
 .PHONY: ruff_fixes
 ruff_fixes:
@@ -80,8 +85,13 @@ tomlsort_fixes:
 # Testing
 #
 
+{%- if cookiecutter.include_sqlalchemy == "y" %}
 .PHONY: tests
 tests: install pytest ruff_check black_check mypy_check dapperdata_check tomlsort_check
+{%- else %}
+.PHONY: tests
+tests: install pytest ruff_check black_check mypy_check dapperdata_check tomlsort_check paracelsus_check
+{%- endif %}
 
 .PHONY: pytest
 pytest:
@@ -147,6 +157,14 @@ build: $(PACKAGE_CHECK)
 #
 # Database
 #
+
+.PHONY: document_schema
+document_schema:
+	$(PYTHON) -m paracelsus inject docs/dev/database.md $(PACKAGE_SLUG).models.base:Base --import-module "$(PACKAGE_SLUG).models:*"
+
+.PHONY: paracelsus_check
+paracelsus_check:
+	$(PYTHON) -m paracelsus inject docs/dev/database.md $(PACKAGE_SLUG).models.base:Base --import-module "$(PACKAGE_SLUG).models:*" --check
 
 .PHONY: run_migrations
 run_migrations:

@@ -32,3 +32,9 @@ make create_migration MESSAGE="migration description"
 The function `{{cookiecutter.__package_slug}}.db:get_session_depends` is designed to work with the [FastAPI Dependency system](https://fastapi.tiangolo.com/tutorial/dependencies/), and can be passed directly to [Depends](https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-in-path-operation-decorators/).
 
 {%- endif %}
+
+## Schema
+
+<!-- BEGIN_SQLALCHEMY_DOCS -->
+
+<!-- END_SQLALCHEMY_DOCS -->

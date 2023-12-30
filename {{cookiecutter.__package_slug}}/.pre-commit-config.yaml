@@ -26,3 +26,10 @@ repos:
         entry: make tomlsort_check
         language: system
         pass_filenames: false
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+      - id: paracelsus
+        name: paracelsus
+        entry: make paracelsus_check
+        language: system
+        pass_filenames: false
+{% endif %}
