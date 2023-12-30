@@ -78,4 +78,5 @@ dev = [
 {% endif %}
 
 [tool.ruff]
+exclude = [".venv", "./{{cookiecutter.__package_slug}}/_version.py"]
 line-length = 120
