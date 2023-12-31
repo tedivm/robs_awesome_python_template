@@ -160,11 +160,11 @@ build: $(PACKAGE_CHECK)
 
 .PHONY: document_schema
 document_schema:
-	$(PYTHON) -m paracelsus inject docs/dev/database.md $(PACKAGE_SLUG).models.base:Base --import-module "$(PACKAGE_SLUG).models:*"
+	$(PYTHON) -m paracelsus.cli inject docs/dev/database.md $(PACKAGE_SLUG).models.base:Base --import-module "$(PACKAGE_SLUG).models:*"
 
 .PHONY: paracelsus_check
 paracelsus_check:
-	$(PYTHON) -m paracelsus inject docs/dev/database.md $(PACKAGE_SLUG).models.base:Base --import-module "$(PACKAGE_SLUG).models:*" --check
+	$(PYTHON) -m paracelsus.cli inject docs/dev/database.md $(PACKAGE_SLUG).models.base:Base --import-module "$(PACKAGE_SLUG).models:*" --check
 
 .PHONY: run_migrations
 run_migrations:
