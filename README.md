@@ -10,6 +10,7 @@ Rob's Awesome Python Template is extremely customizable- it can work for the sma
     - [Celery](#celery)
     - [Typer and Click](#typer-and-click)
     - [SQLAlchemy and Alembic](#sqlalchemy-and-alembic)
+    - [Paracelsus](#paracelsus)
     - [Docker](#docker)
     - [Github Actions](#github-actions)
   - [Examples](#examples)
@@ -34,7 +35,7 @@ The rest of the process is interactive- you'll be asked for a project name and a
 - PyPI Publishing from Github Tags using [setuptools-scm](https://pypi.org/project/setuptools-scm/).
 - Formatting and Linting with [Ruff](https://docs.astral.sh/ruff/).
 - Typing with [mypy](https://mypy.readthedocs.io/en/stable/).
-- Lockfiles (requirements.txt) with [pip-tools](https://pypi.org/project/pip-tools/).
+- Lockfiles (requirements.txt) with [uv](https://pypi.org/project/uv/).
 - Testing with [pytest](https://docs.pytest.org/en/7.2.x/).
 - CI/CD using [Github Actions](https://docs.github.com/en/actions).
 - Precommit Hooks using the [precommit framework](https://pre-commit.com/).

@@ -25,7 +25,7 @@ else
 endif
 
 # Used to confirm that pip has run at least once
-PACKAGE_CHECK:=$(PYTHON_PACKAGE_PATH)/piptools
+PACKAGE_CHECK:=$(PYTHON_PACKAGE_PATH)/build
 PYTHON_DEPS := $(PACKAGE_CHECK)
 
 
@@ -130,17 +130,17 @@ tomlsort_check:
 
 .PHONY: rebuild_dependencies
 rebuild_dependencies:
-	$(PYTHON) -m piptools compile --resolver=backtracking --output-file=requirements.txt pyproject.toml
-	$(PYTHON) -m piptools compile --resolver=backtracking --output-file=requirements-dev.txt --extra=dev pyproject.toml
+	$(PYTHON) -m uv compile --output-file=requirements.txt pyproject.toml
+	$(PYTHON) -m uv compile --output-file=requirements-dev.txt --extra=dev pyproject.toml
 
 .PHONY: dependencies
 dependencies: requirements.txt requirements-dev.txt
 
 requirements.txt: $(PACKAGE_CHECK) pyproject.toml
-	$(PYTHON) -m piptools compile --resolver=backtracking --upgrade --output-file=requirements.txt pyproject.toml
+	$(PYTHON) -m uv pip compile --upgrade --output-file=requirements.txt pyproject.toml
 
 requirements-dev.txt: $(PACKAGE_CHECK) pyproject.toml
-	$(PYTHON) -m piptools compile --resolver=backtracking --upgrade --output-file=requirements-dev.txt --extra=dev pyproject.toml
+	$(PYTHON) -m uv pip compile --upgrade --output-file=requirements-dev.txt --extra=dev pyproject.toml
 
 
 {% endif %}

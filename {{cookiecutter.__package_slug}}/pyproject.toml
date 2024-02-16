@@ -66,13 +66,15 @@ dev = [
 {%- if cookiecutter.include_sqlalchemy == "y" %}
   "paracelsus",
 {%- endif %}
-  "pip-tools",
   "pytest",
   "pytest-cov",
   "pytest-pretty",
   "ruamel.yaml",
   "ruff",
   "toml-sort",
+{%- if cookiecutter.include_requirements_files == "y" %}
+  "uv"
+{% endif %}
 ]
 
 {% if cookiecutter.include_cli == "y" %}
