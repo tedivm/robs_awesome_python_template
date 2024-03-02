@@ -71,7 +71,7 @@ limitations under the License.
 GNU GENERAL PUBLIC LICENSE
                       Version 3, 29 June 2007
 
-    {{ cookiecutter.project_short_description }}
+    {{ cookiecutter.package_name }}
     Copyright (C) {% now 'local', '%Y' %}  {{ cookiecutter.author_name }}
 
     This program is free software: you can redistribute it and/or modify
