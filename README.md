@@ -31,7 +31,7 @@ The rest of the process is interactive- you'll be asked for a project name and a
 ## Core Functionality
 
 - Development Management using [Makefiles](https://www.gnu.org/software/make/manual/html_node/Introduction.html).
-- Configuration Management with [Pydantic](https://docs.pydantic.dev/usage/settings/).
+- Configuration Management with [Pydantic Settings]([https://docs.pydantic.dev/usage/settings/](https://docs.pydantic.dev/latest/concepts/pydantic_settings/)).
 - PyPI Publishing from Github Tags using [setuptools-scm](https://pypi.org/project/setuptools-scm/).
 - Formatting and Linting with [Ruff](https://docs.astral.sh/ruff/).
 - Typing with [mypy](https://mypy.readthedocs.io/en/stable/).
