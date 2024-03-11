@@ -130,8 +130,8 @@ tomlsort_check:
 
 .PHONY: rebuild_dependencies
 rebuild_dependencies:
-	$(PYTHON) -m uv compile --output-file=requirements.txt pyproject.toml
-	$(PYTHON) -m uv compile --output-file=requirements-dev.txt --extra=dev pyproject.toml
+	$(PYTHON) -m uv pip compile --output-file=requirements.txt pyproject.toml
+	$(PYTHON) -m uv pip compile --output-file=requirements-dev.txt --extra=dev pyproject.toml
 
 .PHONY: dependencies
 dependencies: requirements.txt requirements-dev.txt
