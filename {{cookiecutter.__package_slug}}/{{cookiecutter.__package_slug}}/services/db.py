@@ -1,8 +1,8 @@
 from contextlib import asynccontextmanager
+from typing import AsyncGenerator
 from urllib.parse import urlparse
 
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 
 from ..settings import settings
 
@@ -22,14 +22,14 @@ engine = create_async_engine(db_url, future=True, echo=settings.debug)
 
 
 @asynccontextmanager
-async def get_session() -> AsyncSession:
-    async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+async def get_session() -> AsyncGenerator[AsyncSession, None]:
+    async_session = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
     async with async_session() as session:
         yield session
 
 
 {%- if cookiecutter.include_fastapi == "y" %}
-async def get_session_depends() -> AsyncSession:
+async def get_session_depends() -> AsyncGenerator[AsyncSession, None]:
     async with get_session() as session:
         yield session
 {%- endif %}
