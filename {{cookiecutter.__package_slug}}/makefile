@@ -87,10 +87,10 @@ tomlsort_fixes:
 
 {%- if cookiecutter.include_sqlalchemy == "y" %}
 .PHONY: tests
-tests: install pytest ruff_check black_check mypy_check dapperdata_check tomlsort_check
+tests: install pytest ruff_check black_check mypy_check dapperdata_check tomlsort_check paracelsus_check
 {%- else %}
 .PHONY: tests
-tests: install pytest ruff_check black_check mypy_check dapperdata_check tomlsort_check paracelsus_check
+tests: install pytest ruff_check black_check mypy_check dapperdata_check tomlsort_check
 {%- endif %}
 
 .PHONY: pytest
