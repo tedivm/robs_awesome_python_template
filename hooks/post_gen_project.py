@@ -44,6 +44,8 @@ if not INCLUDE_SQLALCHEMY:
     remove_paths.add(f'{PACKAGE_SLUG}/services/db.py')
     remove_paths.add('alembic.ini')
     remove_paths.add(f'docs/dev/database.md')
+    remove_paths.add(f'.github/workflows/alembic.yaml')
+    remove_paths.add(f'.github/workflows/paracelsus.yaml')
 
 if not INCLUDE_CLI:
     remove_paths.add(f'{PACKAGE_SLUG}/cli.py')

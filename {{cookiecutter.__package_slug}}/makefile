@@ -186,5 +186,8 @@ create_migration:
 	rm $(MIGRATION_DATABASE)
 	$(PYTHON) -m ruff format ./db
 
+.PHONY: check_ungenerated_migrations
+check_ungenerated_migrations:
+	$(PYTHON) -m alembic check
 
 {% endif %}

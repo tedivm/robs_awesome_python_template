@@ -1,0 +1,21 @@
+name: Alembic Migration Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  alembic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+
+      - name: Install Dependencies
+        run: make install
+
+      - name: Check for Un-Generated Migrations
+        run: make check_ungenerated_migrations
