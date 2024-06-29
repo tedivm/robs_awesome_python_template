@@ -9,6 +9,6 @@ Static files can be added to `{{ cookiecutter.__package_slug }}/static` and will
 
 ## Docker
 
-The Celery images are based off of the [Multi-Py CelUvicornery Project](https://github.com/multi-py/python-uvicorn) and work for ARM and AMD out of the box.
+The FastAPI images are based off of the [Multi-Py Uvicorn Project](https://github.com/multi-py/python-uvicorn) and work for ARM and AMD out of the box.
 
 {%- endif %}

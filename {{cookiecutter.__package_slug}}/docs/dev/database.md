@@ -25,6 +25,8 @@ Migrations can be using `make`. This method uses SQLite.
 make create_migration MESSAGE="migration description"
 ```
 
+To check if a migration is available run `make check_ungenerated_migrations`.
+
 {%- if cookiecutter.include_fastapi == "y" %}
 
 ## FastAPI Integration
@@ -34,6 +36,8 @@ The function `{{cookiecutter.__package_slug}}.db:get_session_depends` is designe
 {%- endif %}
 
 ## Schema
+
+This schema is generated with Paracelsus. To update run `make document_schema`.
 
 <!-- BEGIN_SQLALCHEMY_DOCS -->
 

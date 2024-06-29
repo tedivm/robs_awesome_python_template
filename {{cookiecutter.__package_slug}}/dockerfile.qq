@@ -1,0 +1,9 @@
+ARG PYTHON_VERSION={{ cookiecutter.__python_short_version }}
+FROM ghcr.io/multi-py/python-quasiqueue:py${PYTHON_VERSION}-slim-LATEST
+
+ENV MODULE_NAME={{ cookiecutter.__package_slug }}.qq
+
+COPY requirements.txt /requirements.txt
+RUN pip install --no-cache-dir -r /requirements.txt
+
+COPY ./ /app

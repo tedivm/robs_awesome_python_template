@@ -8,6 +8,7 @@ INCLUDE_CLI={% if cookiecutter.include_cli == "y" %}True{% else %}False{% endif 
 INCLUDE_CELERY={% if cookiecutter.include_celery == "y" %}True{% else %}False{% endif %}
 INCLUDE_FASTAPI={% if cookiecutter.include_fastapi == "y" %}True{% else %}False{% endif %}
 INCLUDE_DOCKER={% if cookiecutter.include_docker == "y" %}True{% else %}False{% endif %}
+INCLUDE_QUASIQUEUE={% if cookiecutter.include_quasiqueue == "y" %}True{% else %}False{% endif %}
 INCLUDE_JINJA2={% if cookiecutter.include_jinja2 == "y" %}True{% else %}False{% endif %}
 INCLUDE_DOGPILE={% if cookiecutter.include_dogpile == "y" %}True{% else %}False{% endif %}
 INCLUDE_SQLALCHEMY={% if cookiecutter.include_sqlalchemy == "y" %}True{% else %}False{% endif %}
@@ -37,6 +38,13 @@ else:
     remove_paths.add(f'docker/celery')
     remove_paths.add(f'docs/dev/celery.md')
 
+if INCLUDE_QUASIQUEUE:
+    docker_containers.add('qq')
+else:
+    remove_paths.add(f'{PACKAGE_SLUG}/qq.py')
+    remove_paths.add(f'dockerfile.qq')
+    remove_paths.add(f'docs/dev/quasiqueue.md')
+
 if not INCLUDE_SQLALCHEMY:
     remove_paths.add(f'{PACKAGE_SLUG}/models')
     remove_paths.add('db')
@@ -65,6 +73,7 @@ if not INCLUDE_DOCKER:
     remove_paths.add('compose.yaml')
     remove_paths.add('dockerfile.www')
     remove_paths.add('dockerfile.celery')
+    remove_paths.add('dockerfile.qq')
     remove_paths.add(f'docs/dev/docker.md')
 
 if not INCLUDE_DOCKER or len(docker_containers) < 1:

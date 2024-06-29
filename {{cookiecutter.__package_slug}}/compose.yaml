@@ -82,6 +82,32 @@ services:
 {%- endif %}
 {%- endif %}
 
+{% if cookiecutter.include_quasiqueue == "y" %}
+  qq:
+    build:
+      dockerfile: ./dockerfile.qq
+    volumes:
+      - "./{{cookiecutter.__package_slug}}:/app/{{cookiecutter.__package_slug}}"
+    environment:
+      IS_DEV: true
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+      DATABASE_URL: postgresql://main:main12345@db/main
+{%- endif %}
+{%- if cookiecutter.include_celery == "y" %}
+      CELERY_BROKER: redis://redis:6379/0
+{%- endif %}
+{%- endif %}
+{%- if cookiecutter.include_sqlalchemy == "y" or cookiecutter.include_celery == "y" %}
+    depends_on:
+{%- endif %}
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+      - db
+{%- endif %}
+{%- if cookiecutter.include_celery == "y" %}
+      - redis
+{%- endif %}
+
+
 {% if cookiecutter.include_celery == "y" or cookiecutter.include_dogpile == "y" %}
   redis:
     image: redis

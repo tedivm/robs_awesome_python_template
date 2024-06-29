@@ -46,6 +46,9 @@ dependencies = [
 {%- endif %}
   "pydantic~=2.0",
   "pydantic-settings",
+{%- if cookiecutter.include_quasiqueue == "y" %}
+  "QuasiQueue",
+{%- endif %}
 {%- if cookiecutter.include_sqlalchemy == "y" %}
   "SQLAlchemy",
 {%- endif %}

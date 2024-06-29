@@ -8,6 +8,7 @@ Rob's Awesome Python Template is extremely customizable- it can work for the sma
   - [Optional Libraries](#optional-libraries)
     - [FastAPI](#fastapi)
     - [Celery](#celery)
+    - [QuasiQueue](#quasiqueue)
     - [Typer and Click](#typer-and-click)
     - [SQLAlchemy and Alembic](#sqlalchemy-and-alembic)
     - [Paracelsus](#paracelsus)
@@ -56,6 +57,10 @@ Features that are not selected get completely cleaned up and will not pollute th
 
 [Celery](https://docs.celeryq.dev/en/stable/getting-started/introduction.html) is the standard for Queue Management systems with Python.
 
+### QuasiQueue
+
+[QuasiQueue](https://github.com/tedivm/quasiqueue) is a high performance multiprocessing library that is also very simple to use.
+
 ### Typer and Click
 
 [Typer](https://typer.tiangolo.com/typer-cli/), which is built on top of the [Click Framework](https://click.palletsprojects.com), is one of the easiest ways to build command line applications. When enabled this template will create an initial CLI handler and register it with python for easy installation.
@@ -88,6 +93,7 @@ Github Action Workflows are optionally created for a variety of tasks-
 - Publishing Packages to PyPI
 - Pushing Images to GHCR
 - Updating Dependency (requirements.txt) Files
+- Updating Documentation
 
 ## Examples
 
