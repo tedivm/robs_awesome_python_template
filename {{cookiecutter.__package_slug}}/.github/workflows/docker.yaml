@@ -17,10 +17,10 @@ jobs:
       matrix:
         image:
 {%- if cookiecutter.include_fastapi == "y" %}
-          - app
+          - www
 {% endif %}
 {%- if cookiecutter.include_celery == "y" %}
-          - worker
+          - celery
 {% endif %}
 {% raw %}
     permissions:
