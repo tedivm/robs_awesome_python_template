@@ -96,7 +96,6 @@ services:
 {%- if cookiecutter.include_celery == "y" %}
       CELERY_BROKER: redis://redis:6379/0
 {%- endif %}
-{%- endif %}
 {%- if cookiecutter.include_sqlalchemy == "y" or cookiecutter.include_celery == "y" %}
     depends_on:
 {%- endif %}
@@ -106,7 +105,7 @@ services:
 {%- if cookiecutter.include_celery == "y" %}
       - redis
 {%- endif %}
-
+{%- endif %}
 
 {% if cookiecutter.include_celery == "y" or cookiecutter.include_dogpile == "y" %}
   redis:
