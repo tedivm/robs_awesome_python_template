@@ -88,3 +88,9 @@ dev = [
 [tool.ruff]
 exclude = [".venv", "./{{cookiecutter.__package_slug}}/_version.py"]
 line-length = 120
+
+[tool.coverage.run]
+omit = [
+  "./{{cookiecutter.__package_slug}}/_version.py",
+  "./{{cookiecutter.__package_slug}}/__init__.py",
+]
