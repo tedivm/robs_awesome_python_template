@@ -70,6 +70,7 @@ dev = [
   "paracelsus",
 {%- endif %}
   "pytest",
+  "pytest-asyncio",
   "pytest-cov",
   "pytest-pretty",
   "ruamel.yaml",
@@ -93,4 +94,8 @@ line-length = 120
 omit = [
   "./{{cookiecutter.__package_slug}}/_version.py",
   "./{{cookiecutter.__package_slug}}/__init__.py",
+  "./tests/*",
 ]
+
+[tool.pytest.ini_options]
+asyncio_default_fixture_loop_scope = "function"
