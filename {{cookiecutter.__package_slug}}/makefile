@@ -99,7 +99,7 @@ pytest:
 
 .PHONY: pytest_loud
 pytest_loud:
-	$(PYTHON) -m pytest -s --cov=./${PACKAGE_SLUG} --cov-report=term-missing tests
+	$(PYTHON) -m pytest --log-cli-level=DEBUG -log_cli=true --cov=./${PACKAGE_SLUG} --cov-report=term-missing tests
 
 .PHONY: ruff_check
 ruff_check:
