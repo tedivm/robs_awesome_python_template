@@ -19,7 +19,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.version }}
+          python-version: {% raw %}${{ matrix.version }}{% endraw %}
 
       - name: Install Dependencies
         run: make install
