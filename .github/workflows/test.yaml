@@ -1,0 +1,33 @@
+name: Test Cookiecutter Template
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test-template:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        config-file:
+          - full.yaml
+          - bare.yaml
+          - library.yaml
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install cookiecutter
+        run: pip install cookiecutter
+
+      - name: Run cookiecutter template
+        run: |
+          cookiecutter . --no-input --config-file tests/${{ matrix.config-file }} --output-dir /tmp
