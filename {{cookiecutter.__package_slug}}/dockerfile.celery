@@ -7,7 +7,7 @@ COPY requirements.txt /requirements.txt
 RUN pip install --no-cache-dir -r /requirements.txt
 
 {%- if cookiecutter.include_sqlalchemy == "y" %}
-RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y netcat-traditional && rm -rf /var/lib/apt/lists/*
 {%- endif %}
 
 COPY ./docker/celery/prestart.sh /app/prestart.sh
