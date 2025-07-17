@@ -16,4 +16,10 @@ fi
 
 echo "Run Database Migrations"
 python -m alembic upgrade head
+
+
+if [ ! -z "$CREATE_TEST_DATA" ]; then
+  echo "Creating test data..."
+  python -m {{cookiecutter.__package_slug}}.cli test-data
+fi
 {% endif %}

@@ -1,6 +1,8 @@
 from contextlib import asynccontextmanager
+import os
 from typing import AsyncGenerator
 from urllib.parse import urlparse
+
 
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 
@@ -33,3 +35,13 @@ async def get_session_depends() -> AsyncGenerator[AsyncSession, None]:
     async with get_session() as session:
         yield session
 {%- endif %}
+
+async def test_data(session: AsyncSession):
+    """Populate the test database with initial data."""
+    if os.environ.get("IS_DEV", "") != "":
+        raise ValueError("This function should not be called in production. Enable IS_DEV to run it in development.")
+
+    # Example: Add initial data to the session
+    # await session.add_all([YourModel(name="Test")])
+    # await session.commit()
+
