@@ -96,6 +96,7 @@ omit = [
   "./{{cookiecutter.__package_slug}}/__init__.py",
   "./tests/*",
 ]
+concurrency = ["thread", "greenlet"]
 
 [tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "function"
