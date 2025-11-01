@@ -13,4 +13,5 @@ default_context:
   include_docker: "n"
   include_github_actions: "n"
   include_requirements_files: "n"
+  include_agents_instructions: "n"
   publish_to_pypi: "n"
