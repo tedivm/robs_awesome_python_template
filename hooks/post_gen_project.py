@@ -14,6 +14,7 @@ INCLUDE_DOGPILE={% if cookiecutter.include_dogpile == "y" %}True{% else %}False{
 INCLUDE_SQLALCHEMY={% if cookiecutter.include_sqlalchemy == "y" %}True{% else %}False{% endif %}
 INCLUDE_GITHUB_ACTIONS={% if cookiecutter.include_github_actions == "y" %}True{% else %}False{% endif %}
 INCLUDE_REQUIREMENTS_FILES={% if cookiecutter.include_requirements_files == "y" %}True{% else %}False{% endif %}
+INCLUDE_AGENT_INSTRUCTIONS={% if cookiecutter.include_agents_instructions == "y" %}True{% else %}False{% endif %}
 PUBLISH_TO_PYPI={% if cookiecutter.publish_to_pypi == "y" %}True{% else %}False{% endif %}
 PACKAGE_SLUG="{{cookiecutter.__package_slug}}"
 
@@ -87,6 +88,9 @@ if not INCLUDE_GITHUB_ACTIONS:
 if not INCLUDE_REQUIREMENTS_FILES:
     remove_paths.add('.github/workflows/lockfiles.yaml')
     remove_paths.add(f'docs/dev/dependencies.md')
+
+if not INCLUDE_AGENT_INSTRUCTIONS:
+    remove_paths.add(f'AGENTS.md')
 
 for path in remove_paths:
     path = path.strip()

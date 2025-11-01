@@ -5,7 +5,7 @@ Rob's Awesome Python Template is extremely customizable- it can work for the sma
 - [Rob's Awesome Python Template](#robs-awesome-python-template)
   - [Usage](#usage)
   - [Core Functionality](#core-functionality)
-  - [Optional Libraries](#optional-libraries)
+  - [Optional Functionality](#optional-libraries)
     - [FastAPI](#fastapi)
     - [Celery](#celery)
     - [QuasiQueue](#quasiqueue)
@@ -14,6 +14,7 @@ Rob's Awesome Python Template is extremely customizable- it can work for the sma
     - [Paracelsus](#paracelsus)
     - [Docker](#docker)
     - [Github Actions](#github-actions)
+    - [Agentic Instructions](#agentic-instructions)
   - [Examples](#examples)
 
 
@@ -94,6 +95,10 @@ Github Action Workflows are optionally created for a variety of tasks-
 - Pushing Images to GHCR
 - Updating Dependency (requirements.txt) Files
 - Updating Documentation
+
+### Agentic Instructions
+
+A predefined AGENTS.md file enables project specific instructions and best practices for coding agents such as Github Copilot, Cursor, and Windsurf.
 
 ## Examples
 

@@ -20,6 +20,7 @@
   "include_docker": "y/N",
   "include_github_actions": "y/N",
   "include_requirements_files": "y/N",
+  "include_agents_instructions": "y/N",
   "publish_to_pypi": "y/N",
   "__package_slug": "{{ cookiecutter.package_name.lower().replace(' ', '_').replace('-', '_') }}",
   "__python_short_version": "{{ cookiecutter.python_version.split('.')[:2]|join('.') }}"
