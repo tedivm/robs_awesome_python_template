@@ -30,27 +30,27 @@ Every project created with this template includes these essential components:
 
 **Development Tools**
 
-- **Makefile automation**: One-command setup, testing, and deployment
+- **[Makefile](https://www.gnu.org/software/make/manual/html_node/Introduction.html) automation**: One-command setup, testing, and deployment
 - **Modern pyproject.toml**: No legacy setup.py files
-- **Virtual environment management**: Automatic venv setup with pyenv integration
-- **Pre-commit hooks**: Catch issues before they reach your repository
+- **Virtual environment management**: Automatic venv setup with [pyenv](https://github.com/pyenv/pyenv) integration
+- **[Pre-commit](https://pre-commit.com/) hooks**: Catch issues before they reach your repository
 
 **Code Quality**
 
-- **Ruff**: Lightning-fast formatting and linting
-- **mypy**: Static type checking for safer code
-- **pytest**: Comprehensive testing framework with async support
+- **[Ruff](https://docs.astral.sh/ruff/)**: Lightning-fast formatting and linting
+- **[mypy](https://mypy.readthedocs.io/en/stable/)**: Static type checking for safer code
+- **[pytest](https://docs.pytest.org/)**: Comprehensive testing framework with async support
 - **Coverage reporting**: Track your test coverage (even with multiprocess applications)
 
 **Configuration & Settings**
 
-- **Pydantic Settings**: Type-safe configuration management
+- **[Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/)**: Type-safe configuration management
 - **Environment-based config**: Easy deployment across different environments
 - **Automatic validation**: Catch configuration errors early
 
 **Publishing & Distribution**
 
-- **setuptools-scm**: Automatic versioning from git tags
+- **[setuptools-scm](https://pypi.org/project/setuptools-scm/)**: Automatic versioning from git tags
 - **PyPI publishing**: One-command package publishing
 - **Multi-architecture support**: Works on AMD64 and ARM64
 
@@ -60,7 +60,7 @@ Pick and choose the features you need. Unused components are completely removed 
 
 ### 🌐 Web Applications
 
-**FastAPI Integration**
+**[FastAPI](https://fastapi.tiangolo.com/) Integration**
 
 - Complete REST API setup with automatic documentation
 - Static file serving
@@ -70,14 +70,14 @@ Pick and choose the features you need. Unused components are completely removed 
 
 ### 📋 Task Processing
 
-**Celery Integration**
+**[Celery](https://docs.celeryq.dev/en/stable/) Integration**
 
 - Distributed task queue setup
-- Redis broker configuration
+- [Redis](https://redis.io/) broker configuration
 - Worker and scheduler containers
 - Monitoring and management tools
 
-**QuasiQueue Integration**
+**[QuasiQueue](https://github.com/tedivm/quasiqueue) Integration**
 
 - High-performance multiprocessing
 - Simple async task processing
@@ -85,7 +85,7 @@ Pick and choose the features you need. Unused components are completely removed 
 
 ### 💾 Database & ORM
 
-**SQLAlchemy + Alembic**
+**[SQLAlchemy](https://www.sqlalchemy.org/) + [Alembic](https://alembic.sqlalchemy.org/en/latest/)**
 
 - Async database operations
 - Automatic model discovery
@@ -93,7 +93,7 @@ Pick and choose the features you need. Unused components are completely removed 
 - Support for PostgreSQL, SQLite, and more
 - Connection pooling and optimization
 
-**Paracelsus Integration**
+**[Paracelsus](https://github.com/tedivm/paracelsus) Integration**
 
 - Automatic database schema diagrams
 - Documentation generation
@@ -101,7 +101,7 @@ Pick and choose the features you need. Unused components are completely removed 
 
 ### 🖥️ Command Line Interface
 
-**Typer + Click**
+**[Typer](https://typer.tiangolo.com/) + [Click](https://click.palletsprojects.com/)**
 
 - Beautiful CLI applications
 - Automatic help generation
@@ -111,7 +111,7 @@ Pick and choose the features you need. Unused components are completely removed 
 
 ### 🎨 Templating
 
-**Jinja2 Templates**
+**[Jinja2](https://jinja.palletsprojects.com/) Templates**
 
 - Server-side rendering
 - Template inheritance
@@ -119,17 +119,17 @@ Pick and choose the features you need. Unused components are completely removed 
 
 ### 🐳 Containerization
 
-**Docker Setup**
+**[Docker](https://www.docker.com/) Setup**
 
-- Multi-service Docker Compose configuration
+- Multi-service [Docker Compose](https://docs.docker.com/compose/) configuration
 - Optimized multi-stage builds
 - Development and production configurations
 - Health checks and resource limits
-- Multi-architecture image support
+- Multi-architecture image support from [Multi-Py](https://github.com/multi-py/)
 
 ### ⚙️ CI/CD Pipeline
 
-**Comprehensive GitHub Actions**
+**Comprehensive [GitHub Actions](https://docs.github.com/en/actions)**
 
 - Automated testing across Python versions
 - Code formatting and linting
@@ -137,7 +137,7 @@ Pick and choose the features you need. Unused components are completely removed 
 - Security scanning
 - Automated PyPI publishing
 - Container image building and publishing
-- Dependency updates with lockfile management
+- Dependency updates with [uv](https://pypi.org/project/uv/) lockfile management
 - Documentation generation and deployment
 
 ### 🤖 AI Development Support
