@@ -6,11 +6,13 @@ Transform any Python idea into a production-ready project in minutes. This Cooki
 
 ## Why Choose This Template?
 
-- **Zero Configuration Hassle**: Get a fully configured development environment instantly
-- **Production Ready**: Battle-tested tools and patterns used in real-world applications
-- **Incredibly Flexible**: Mix and match features to create exactly what you need
-- **Modern Standards**: Uses the latest Python tooling and best practices
-- **Enterprise Grade**: Scales from weekend projects to mission-critical applications
+- **Modern Development Tools**: Get a fully configured environment with Ruff (formatting/linting), mypy (type checking), pytest (testing), and pre-commit hooks ready to use
+- **Production-Ready Frameworks**: Optional integration with FastAPI (web APIs), Celery (distributed tasks), SQLAlchemy + Alembic (database ORM), and QuasiQueue (multiprocessing)
+- **Professional Infrastructure**: Includes Docker containerization, GitHub Actions CI/CD, Pydantic Settings for configuration, and Makefile automation
+- **Developer-Friendly CLI**: Optional Typer integration for building beautiful command-line interfaces with automatic help and shell completion
+- **AI Ready**: Pre-configured AGENTS.md file following the open standard compatible with Cursor, Aider, GitHub Copilot, and other AI coding assistants
+- **Incredibly Flexible**: Mix and match features to create exactly what you need, from simple libraries to full web applications with automatic cleanup of unused code
+- **Modern Python Standards**: Python 3.10+ with async/await support, type hints, contemporary best practices, and pyproject.toml configuration
 
 ## Quick Start
 
@@ -72,7 +74,7 @@ Pick and choose the features you need. Unused components are completely removed 
 **[Celery](https://docs.celeryq.dev/en/stable/) Integration**
 
 - Enterprise-grade distributed task queue for processing millions of tasks per day, with support for task prioritization, routing, and complex workflows using chains, groups, and chords
-- Battle-tested [Redis](https://redis.io/) broker configuration with connection pooling, automatic retries, and result backend for storing task outcomes and enabling result retrieval
+- Production-proven [Redis](https://redis.io/) broker configuration with connection pooling, automatic retries, and result backend for storing task outcomes and enabling result retrieval
 - Pre-configured worker and scheduler (beat) containers for running periodic tasks like cron jobs, with separate deployments for different task types and priorities
 - Automatic task retry mechanisms with exponential backoff, task revocation, rate limiting, and comprehensive error handling for building resilient asynchronous systems
 
