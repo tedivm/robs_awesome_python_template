@@ -22,6 +22,7 @@ Before beginning any task, make sure you review the documentation (`docs/dev/` a
 * Never hardcode sensitive data.
 * Do not log sensitive data.
 * All user input should be validated.
+* Never roll your own cryptography system.
 
 ### Production Ready
 
