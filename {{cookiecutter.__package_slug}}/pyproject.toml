@@ -65,6 +65,7 @@ dev = [
   "build",
   "dapperdata",
   "glom",
+  "greenlet",
   "mypy",
 {%- if cookiecutter.include_sqlalchemy == "y" %}
   "paracelsus",
