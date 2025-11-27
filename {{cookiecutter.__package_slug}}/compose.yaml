@@ -19,13 +19,17 @@ services:
 {%- if cookiecutter.include_celery == "y" %}
       CELERY_BROKER: redis://redis:6379/0
 {%- endif %}
-{%- if cookiecutter.include_sqlalchemy == "y" or cookiecutter.include_celery == "y" %}
+{%- if cookiecutter.include_aiocache == "y" %}
+      CACHE_REDIS_HOST: redis
+      CACHE_REDIS_PORT: 6379
+{%- endif %}
+{%- if cookiecutter.include_sqlalchemy == "y" or cookiecutter.include_celery == "y" or cookiecutter.include_aiocache == "y" %}
     depends_on:
 {%- endif %}
 {%- if cookiecutter.include_sqlalchemy == "y" %}
       - db
 {%- endif %}
-{%- if cookiecutter.include_celery == "y" %}
+{%- if cookiecutter.include_celery == "y" or cookiecutter.include_aiocache == "y" %}
       - redis
 {%- endif %}
 {%- endif %}
@@ -46,13 +50,17 @@ services:
 {%- if cookiecutter.include_celery == "y" %}
       CELERY_BROKER: redis://redis:6379/0
 {%- endif %}
-{%- if cookiecutter.include_sqlalchemy == "y" or cookiecutter.include_celery == "y" %}
+{%- if cookiecutter.include_aiocache == "y" %}
+      CACHE_REDIS_HOST: redis
+      CACHE_REDIS_PORT: 6379
+{%- endif %}
+{%- if cookiecutter.include_sqlalchemy == "y" or cookiecutter.include_celery == "y" or cookiecutter.include_aiocache == "y" %}
     depends_on:
 {%- endif %}
 {%- if cookiecutter.include_sqlalchemy == "y" %}
       - db
 {%- endif %}
-{%- if cookiecutter.include_celery == "y" %}
+{%- if cookiecutter.include_celery == "y" or cookiecutter.include_aiocache == "y" %}
       - redis
 {%- endif %}
 
@@ -71,13 +79,17 @@ services:
 {%- if cookiecutter.include_celery == "y" %}
       CELERY_BROKER: redis://redis:6379/0
 {%- endif %}
-{%- if cookiecutter.include_sqlalchemy == "y" or cookiecutter.include_celery == "y" %}
+{%- if cookiecutter.include_aiocache == "y" %}
+      CACHE_REDIS_HOST: redis
+      CACHE_REDIS_PORT: 6379
+{%- endif %}
+{%- if cookiecutter.include_sqlalchemy == "y" or cookiecutter.include_celery == "y" or cookiecutter.include_aiocache == "y" %}
     depends_on:
 {%- endif %}
 {%- if cookiecutter.include_sqlalchemy == "y" %}
       - db
 {%- endif %}
-{%- if cookiecutter.include_celery == "y" %}
+{%- if cookiecutter.include_celery == "y" or cookiecutter.include_aiocache == "y" %}
       - redis
 {%- endif %}
 {%- endif %}
@@ -96,18 +108,22 @@ services:
 {%- if cookiecutter.include_celery == "y" %}
       CELERY_BROKER: redis://redis:6379/0
 {%- endif %}
-{%- if cookiecutter.include_sqlalchemy == "y" or cookiecutter.include_celery == "y" %}
+{%- if cookiecutter.include_aiocache == "y" %}
+      CACHE_REDIS_HOST: redis
+      CACHE_REDIS_PORT: 6379
+{%- endif %}
+{%- if cookiecutter.include_sqlalchemy == "y" or cookiecutter.include_celery == "y" or cookiecutter.include_aiocache == "y" %}
     depends_on:
 {%- endif %}
 {%- if cookiecutter.include_sqlalchemy == "y" %}
       - db
 {%- endif %}
-{%- if cookiecutter.include_celery == "y" %}
+{%- if cookiecutter.include_celery == "y" or cookiecutter.include_aiocache == "y" %}
       - redis
 {%- endif %}
 {%- endif %}
 
-{% if cookiecutter.include_celery == "y" or cookiecutter.include_dogpile == "y" %}
+{% if cookiecutter.include_celery == "y" or cookiecutter.include_aiocache == "y" %}
   redis:
     image: redis
 {%- endif %}

@@ -9,7 +9,7 @@ default_context:
   include_sqlalchemy: "y"
   include_quasiqueue: "y"
   include_jinja2: "y"
-  include_dogpile: "y"
+  include_aiocache: "y"
   include_celery: "y"
   include_docker: "y"
   include_github_actions: "y"

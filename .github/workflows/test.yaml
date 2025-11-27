@@ -25,9 +25,36 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
       - name: Install cookiecutter
         run: pip install cookiecutter
 
       - name: Run cookiecutter template
         run: |
           cookiecutter . --no-input --config-file tests/${{ matrix.config-file }} --output-dir /tmp
+
+      - name: Get project name
+        id: project
+        run: |
+          PROJECT_NAME=$(yq -r '.default_context.package_name' tests/${{ matrix.config-file }})
+          echo "name=$PROJECT_NAME" >> $GITHUB_OUTPUT
+
+      - name: Run pytest
+        working-directory: /tmp/${{ steps.project.outputs.name }}
+        run: make pytest
+
+      - name: Run ruff check
+        working-directory: /tmp/${{ steps.project.outputs.name }}
+        run: make ruff_check
+
+      - name: Run black format check
+        working-directory: /tmp/${{ steps.project.outputs.name }}
+        run: make black_check
+
+      - name: Run mypy
+        working-directory: /tmp/${{ steps.project.outputs.name }}
+        run: make mypy_check

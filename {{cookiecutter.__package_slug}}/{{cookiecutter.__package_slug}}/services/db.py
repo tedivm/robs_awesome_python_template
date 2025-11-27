@@ -36,7 +36,7 @@ async def get_session_depends() -> AsyncGenerator[AsyncSession, None]:
         yield session
 {%- endif %}
 
-async def test_data(session: AsyncSession):
+async def test_data(session: AsyncSession) -> None:
     """Populate the test database with initial data."""
     if os.environ.get("IS_DEV", "") != "":
         raise ValueError("This function should not be called in production. Enable IS_DEV to run it in development.")
