@@ -5,15 +5,15 @@ requires = ["setuptools>=67.0", "setuptools_scm[toml]>=7.1"]
 [tool.setuptools.dynamic]
 readme = {file = ["README.md"]}
 
-[tool.setuptools.packages]
-find = {}
-
 [tool.setuptools.package-data]
 {{cookiecutter.__package_slug}} = ["py.typed"]
 
 [tool.setuptools_scm]
 fallback_version = "0.0.0-dev"
 write_to = "{{cookiecutter.__package_slug}}/_version.py"
+
+[tool.setuptools.packages.find]
+exclude = ["tests*", "docs*"]
 
 [project]
 authors = [{"name" = "{{cookiecutter.author_name}}"}]
@@ -32,8 +32,8 @@ dependencies = [
 {%- if cookiecutter.include_celery == "y" %}
   "celery",
 {%- endif %}
-{%- if cookiecutter.include_dogpile == "y" %}
-  "dogpile.cache",
+{%- if cookiecutter.include_aiocache == "y" %}
+  "aiocache",
 {%- endif %}
 {%- if cookiecutter.include_fastapi == "y" %}
   "fastapi",
@@ -52,7 +52,7 @@ dependencies = [
 {%- if cookiecutter.include_sqlalchemy == "y" %}
   "SQLAlchemy",
 {%- endif %}
-{%- if cookiecutter.include_celery == "y" %}
+{%- if cookiecutter.include_celery == "y" or cookiecutter.include_aiocache == "y" %}
   "redis",
 {%- endif %}
 {%- if cookiecutter.include_cli == "y" %}
@@ -66,6 +66,9 @@ dev = [
   "dapperdata",
   "glom",
   "greenlet",
+{%- if cookiecutter.include_fastapi == "y" %}
+  "httpx",
+{%- endif %}
   "mypy",
 {%- if cookiecutter.include_sqlalchemy == "y" %}
   "paracelsus",
@@ -92,15 +95,23 @@ exclude = [".venv", "./{{cookiecutter.__package_slug}}/_version.py"]
 line-length = 120
 
 [tool.coverage.run]
+concurrency = ["thread", "greenlet"]
 omit = [
   "./{{cookiecutter.__package_slug}}/_version.py",
   "./{{cookiecutter.__package_slug}}/__init__.py",
   "./tests/*",
 ]
-concurrency = ["thread", "greenlet"]
 
 [tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "function"
 
 [tool.mypy]
+check_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_calls = false
+disallow_untyped_defs = true
+no_implicit_optional = true
 plugins = ["pydantic.mypy"]
+strict_optional = true
+warn_return_any = true
+warn_unused_ignores = true

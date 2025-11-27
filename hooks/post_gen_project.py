@@ -10,7 +10,7 @@ INCLUDE_FASTAPI={% if cookiecutter.include_fastapi == "y" %}True{% else %}False{
 INCLUDE_DOCKER={% if cookiecutter.include_docker == "y" %}True{% else %}False{% endif %}
 INCLUDE_QUASIQUEUE={% if cookiecutter.include_quasiqueue == "y" %}True{% else %}False{% endif %}
 INCLUDE_JINJA2={% if cookiecutter.include_jinja2 == "y" %}True{% else %}False{% endif %}
-INCLUDE_DOGPILE={% if cookiecutter.include_dogpile == "y" %}True{% else %}False{% endif %}
+INCLUDE_AIOCACHE={% if cookiecutter.include_aiocache == "y" %}True{% else %}False{% endif %}
 INCLUDE_SQLALCHEMY={% if cookiecutter.include_sqlalchemy == "y" %}True{% else %}False{% endif %}
 INCLUDE_GITHUB_ACTIONS={% if cookiecutter.include_github_actions == "y" %}True{% else %}False{% endif %}
 INCLUDE_REQUIREMENTS_FILES={% if cookiecutter.include_requirements_files == "y" %}True{% else %}False{% endif %}
@@ -30,6 +30,7 @@ else:
     remove_paths.add(f'dockerfile.www')
     remove_paths.add(f'docker/www')
     remove_paths.add(f'docs/dev/api.md')
+    remove_paths.add(f'tests/test_www.py')
 
 if INCLUDE_CELERY:
     docker_containers.add('celery')
@@ -38,6 +39,7 @@ else:
     remove_paths.add(f'dockerfile.celery')
     remove_paths.add(f'docker/celery')
     remove_paths.add(f'docs/dev/celery.md')
+    remove_paths.add(f'tests/test_celery.py')
 
 if INCLUDE_QUASIQUEUE:
     docker_containers.add('qq')
@@ -45,6 +47,7 @@ else:
     remove_paths.add(f'{PACKAGE_SLUG}/qq.py')
     remove_paths.add(f'dockerfile.qq')
     remove_paths.add(f'docs/dev/quasiqueue.md')
+    remove_paths.add(f'tests/test_qq.py')
 
 if not INCLUDE_SQLALCHEMY:
     remove_paths.add(f'{PACKAGE_SLUG}/models')
@@ -59,15 +62,22 @@ if not INCLUDE_SQLALCHEMY:
 if not INCLUDE_CLI:
     remove_paths.add(f'{PACKAGE_SLUG}/cli.py')
     remove_paths.add(f'docs/dev/cli.md')
+    remove_paths.add(f'tests/test_cli.py')
 
 if not INCLUDE_JINJA2:
     remove_paths.add(f'{PACKAGE_SLUG}/templates')
     remove_paths.add(f'{PACKAGE_SLUG}/services/jinja.py')
     remove_paths.add(f'docs/dev/templates.md')
+    remove_paths.add(f'tests/services/test_jinja.py')
 
-if not INCLUDE_DOGPILE:
+if not INCLUDE_AIOCACHE:
+    remove_paths.add(f'{PACKAGE_SLUG}/conf/cache.py')
     remove_paths.add(f'{PACKAGE_SLUG}/services/cache.py')
+    remove_paths.add(f'tests/services/test_cache.py')
     remove_paths.add(f'docs/dev/cache.md')
+
+# Always include test_settings.py as it tests core settings functionality
+# that exists regardless of optional features
 
 if not INCLUDE_DOCKER:
     remove_paths.add('.dockerignore')

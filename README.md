@@ -86,6 +86,17 @@ Pick and choose the features you need. Unused components are completely removed 
 - Type-safe configuration using Pydantic for automatic validation of input data, with configurable queue sizes, worker counts, and graceful shutdown handling
 - Perfect for CPU-intensive workloads like data processing, image manipulation, scientific computing, and batch operations that need to scale beyond single-threaded execution
 
+### Caching
+
+**[aiocache](https://aiocache.readthedocs.io/) Integration**
+
+- High-performance async caching library with support for multiple backends including Redis, Memcached, and in-memory storage, providing millisecond-level response times for frequently accessed data
+- Automatic cache configuration and connection management with separate cache instances for different TTL requirements: default (5 minutes), persistent (1 hour), and custom durations for specific use cases
+- Decorator-based caching with `@cached` for effortless function result memoization, automatically serializing complex Python objects including Pydantic models, dataclasses, and custom types
+- Built-in cache warming on application startup for Celery workers and web servers, pre-populating critical data to eliminate cold-start latency and ensure consistent performance from the first request
+- Type-safe settings configuration for cache behavior including host, port, TTL values, and enable/disable flags, with automatic validation and clear error messages for misconfigurations
+- Production-ready Redis integration with connection pooling, automatic reconnection handling, and graceful degradation when cache is unavailable, preventing cascading failures
+
 ### Database & ORM
 
 **[SQLAlchemy](https://www.sqlalchemy.org/) + [Alembic](https://alembic.sqlalchemy.org/en/latest/)**
@@ -156,6 +167,7 @@ Every generated project includes documentation tailored to your selected feature
 - **Developer Guide Hub**: Organized documentation index in `docs/dev/` with dedicated guides for each enabled feature
 - **FastAPI Documentation**: Integration guide covering static file serving, Docker configuration, and FastAPI dependency system usage
 - **Database Documentation**: SQLAlchemy and Alembic guide covering model organization, migration creation using Make commands, FastAPI integration, and automatic schema diagram generation with Paracelsus
+- **Caching Documentation**: aiocache integration guide covering cache configuration, decorator usage, multiple TTL strategies, and cache warming for optimal performance
 - **Task Processing Guides**: Documentation for Celery (worker and beat configuration, Docker setup) and QuasiQueue (configuration file location, Docker images)
 - **CLI Documentation**: Guide showing how to use the generated CLI and where to add new commands
 - **Docker Documentation**: Container setup documentation covering image sources, development environment, and registry publishing
@@ -167,7 +179,8 @@ Every generated project includes documentation tailored to your selected feature
 The template intelligently configures itself based on your choices through sophisticated post-generation hooks:
 
 - **Surgical Dependency Management**: Only includes packages you actually need in `pyproject.toml`, with proper optional dependency groups for dev tools, testing, and feature-specific requirements, avoiding bloated dependency trees
-- **Conditional Docker Services**: Automatically generates docker-compose.yaml with only the services your project requires: PostgreSQL for SQLAlchemy, Redis for Celery/caching, with properly configured health checks, volumes, and networking
+- **Conditional Docker Services**: Automatically generates docker-compose.yaml with only the services your project requires: PostgreSQL for SQLAlchemy, Redis for Celery/aiocache caching, with properly configured health checks, volumes, and networking
+- **Cache-Aware Configuration**: When aiocache is enabled, automatically configures Redis connection settings, multiple cache instances with different TTL strategies, and cache warming hooks for FastAPI and Celery startup events
 - **Database-Aware Configuration**: Sets up appropriate connection strings, pool sizes, and dialect-specific settings for PostgreSQL or SQLite, with Alembic migrations configured for cross-database compatibility
 - **Feature-Driven CI/CD Workflows**: GitHub Actions workflows are conditionally installed based on your feature selection: container building and publishing only when Docker is enabled, PyPI publishing workflow only when configured, eliminating unused automation files from your repository
 - **Framework Integration**: Automatically wires together selected components (FastAPI with SQLAlchemy database dependencies, Celery with Redis broker, CLI with async command support) providing working examples of how pieces fit together

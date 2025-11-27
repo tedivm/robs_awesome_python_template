@@ -3,6 +3,7 @@
   "author_name": "",
   "short_description": "",
   "python_version": "3.14",
+  "github_org": "EXAMPLE",
   "license": [
     "All Rights Reserved",
     "MIT license",
@@ -15,7 +16,7 @@
   "include_sqlalchemy": "y/N",
   "include_quasiqueue": "y/N",
   "include_jinja2": "y/N",
-  "include_dogpile": "y/N",
+  "include_aiocache": "y/N",
   "include_celery": "y/N",
   "include_docker": "y/N",
   "include_github_actions": "y/N",

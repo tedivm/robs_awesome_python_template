@@ -8,7 +8,7 @@ default_context:
   include_fastapi: "n"
   include_sqlalchemy: "n"
   include_jinja2: "n"
-  include_dogpile: "n"
+  include_aiocache: "n"
   include_celery: "n"
   include_docker: "n"
   include_github_actions: "n"
