@@ -10,6 +10,7 @@ jobs:
   test-template:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         config-file:
           - full.yaml

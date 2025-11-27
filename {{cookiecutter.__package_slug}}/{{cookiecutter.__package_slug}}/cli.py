@@ -25,10 +25,10 @@ def syncify(f: Callable[..., Any]) -> Callable[..., Any]:
 @app.command(help="Install testing data for local development.")
 @syncify
 async def test_data() -> None:
-    from . import _version
+    from . import __version__
     from .services.db import get_session, test_data
 
-    typer.echo(f"{settings.project_name} - {_version.version}")
+    typer.echo(f"{settings.project_name} - {__version__}")
 
     async with get_session() as session:
         await test_data(session)
@@ -41,6 +41,11 @@ def version() -> None:
     from . import __version__
 
     typer.echo(f"{settings.project_name} - {__version__}")
+
+
+@app.command(help="Display a friendly greeting.")
+def hello() -> None:
+    typer.echo(f"Hello from {settings.project_name}!")
 
 
 if __name__ == "__main__":
