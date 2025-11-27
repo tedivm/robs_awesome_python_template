@@ -1,6 +1,6 @@
 # Agent Instructions
 
-This project is a CookieCutter template used to generate new python projects. It is extremely dynamic, with many optional settings. Make sure to review the README.md to get more context, as well as the AGENTS.md file int he project template itself (`{{cookiecutter.__package_slug}}/AGENTS.md`).
+This project is a CookieCutter template used to generate new python projects. It is extremely dynamic, with many optional settings. Make sure to review the README.md to get more context, as well as the AGENTS.md file in the project template itself (`{{cookiecutter.__package_slug}}/AGENTS.md`).
 
 Since this is a Cookiecutter template you should expect to encounter Jinja2 template blocks in various files.
 
