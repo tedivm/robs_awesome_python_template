@@ -13,6 +13,7 @@ Transform any Python idea into a production-ready project in minutes. This Cooki
 - **AI Ready**: Pre-configured AGENTS.md file following the open standard compatible with Cursor, Aider, GitHub Copilot, and other AI coding assistants
 - **Incredibly Flexible**: Mix and match features to create exactly what you need, from simple libraries to full web applications with automatic cleanup of unused code
 - **Modern Python Standards**: Python 3.10+ with async/await support, type hints, contemporary best practices, and pyproject.toml configuration
+- **Zero Manual Setup**: UV automatically downloads and installs the correct Python version - no need for pyenv or manual Python installation
 
 ## Quick Start
 
@@ -34,7 +35,8 @@ Every project created with this template includes these essential components:
 
 - **[Makefile](https://www.gnu.org/software/make/manual/html_node/Introduction.html) automation**: Powerful task automation covering setup, testing, formatting, linting, and deployment with simple commands like `make install`, `make test`, and `make publish`
 - **Modern pyproject.toml**: Centralized project configuration using the modern Python standard, eliminating legacy setup.py files and consolidating all metadata, dependencies, and tool settings in one place
-- **Virtual environment management**: Seamless virtual environment creation and activation with automatic [pyenv](https://github.com/pyenv/pyenv) integration for managing Python versions across development teams
+- **[uv](https://docs.astral.sh/uv/)**: Lightning-fast Python package installer and virtual environment manager written in Rust, providing 10-100x faster installations than pip with automatic Python version management
+- **Virtual environment management**: Seamless virtual environment creation using uv, automatically installing the correct Python version from `.python-version` and managing dependencies efficiently
 - **[Pre-commit](https://pre-commit.com/) hooks**: Automated code quality checks that run before every commit, catching formatting issues, security vulnerabilities, and common mistakes before they enter your repository
 
 ### Code Quality

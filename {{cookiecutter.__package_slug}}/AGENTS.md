@@ -4,6 +4,142 @@ You should always follow the best practices outlined in this document. If there 
 
 Before beginning any task, make sure you review the documentation (`docs/dev/` and `README.md`), the existing tests to understand the project, and the task runner (Makefile) to understand what dev tools are available and how to use them. You should review code related to your request to understand preferred style: for example, you should review other tests before writing a new test suite, or review existing routers before creating a new one.
 
+## Common Commands
+
+### Development Setup
+
+```bash
+# Create virtual environment and install dependencies
+make install
+
+# Update lockfile with latest compatible versions
+make lock
+
+# Install updated dependencies
+make sync
+```
+
+### Testing & Quality
+
+```bash
+# Run test suite with coverage
+make pytest
+
+# Run all quality checks (tests, type checking, linting, formatting)
+make tests
+
+# Type checking with mypy
+make mypy_check
+
+# Linting with ruff (check only)
+make ruff_check
+
+# Format checking with ruff
+make black_check
+
+# Auto-fix linting and formatting issues
+make chores
+```
+
+### Code Formatting
+
+```bash
+# Run all formatting fixes (ruff, dapperdata, toml-sort)
+make chores
+
+# Fix ruff linting issues
+make ruff_fixes
+
+# Format code with ruff
+make black_fixes
+
+# Fix YAML/JSON formatting with dapperdata
+make dapperdata_fixes
+
+# Sort TOML files
+make tomlsort_fixes
+```
+
+### Dependency Management
+
+```bash
+# Add a new dependency (edit pyproject.toml, then run)
+make lock
+make sync
+
+# Add a dev dependency (add to [dependency-groups] dev in pyproject.toml, then run)
+make lock
+make sync
+
+# Check if lockfile is up to date
+make lock-check
+```
+
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+
+### Database Operations
+
+```bash
+# Run database migrations
+make run_migrations
+
+# Create a new migration
+make create_migration MESSAGE="description of changes"
+
+# Check for ungenerated migrations
+make check_ungenerated_migrations
+
+# Reset database (clear and run migrations)
+make reset_db
+
+# Clear database
+make clear_db
+
+# Update database schema documentation
+make document_schema
+```
+
+{%- endif %}
+
+{%- if cookiecutter.publish_to_pypi == "y" %}
+
+### Building & Packaging
+
+```bash
+# Build package
+make build
+```
+
+{%- endif %}
+
+### Using UV Directly
+
+```bash
+# Run Python module
+uv run python -m module_name
+
+# Run script
+uv run python script.py
+
+# Run pytest
+uv run pytest
+
+# Add package to project dependencies
+uv add package_name
+
+# Remove package
+uv remove package_name
+
+# Update all dependencies
+uv lock --upgrade
+
+# Sync dependencies from lockfile
+uv sync
+
+# Sync with dev dependencies
+uv sync --group dev
+```
+
 ## Best Practices
 
 ### General
@@ -123,3 +259,4 @@ Before beginning any task, make sure you review the documentation (`docs/dev/` a
 * Developer settings should live in the `.env` file, which should be in `.gitignore`.
 * A `.env.example` file should exist as a template for new developers to create their `.env` file and learn what variables to set.
 * Python projects should always use virtual environments at `.venv` in the project root. This should be activated before running tests.
+* Use `uv` for Python version management and package installation instead of pyenv and pip for significantly faster installations and automatic Python version handling.
