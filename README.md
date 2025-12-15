@@ -4,6 +4,8 @@
 
 Transform any Python idea into a production-ready project in minutes. This CookieCutter template provides everything you need to build, test, deploy, and maintain modern Python applications with industry best practices baked in.
 
+**Quick Links:** [Quick Start](#quick-start) • [Core Features](#core-features-always-included) • [Optional Integrations](#optional-integrations) • [Project Examples](#project-examples) • [Built With This Template](#built-with-this-template)
+
 ## Why Choose This Template?
 
 - **Modern Development Tools**: Get a fully configured environment with Ruff (formatting/linting), mypy (type checking), pytest (testing), and pre-commit hooks ready to use
@@ -218,6 +220,18 @@ See the template in action with complete example projects:
 
 - Bare minimum configuration with all optional features disabled
 - Perfect starting point for simple projects
+
+## Built With This Template
+
+Real-world projects using this template in production:
+
+- **[tedivm/paracelsus](https://github.com/tedivm/paracelsus)** - Generates Entity Relationship Diagrams from SQLAlchemy models, creating beautiful visualizations in Mermaid or Graphviz format with automatic injection into documentation
+- **[tedivm/quasiqueue](https://github.com/tedivm/quasiqueue)** - Multiprocessing library that makes long-running parallel jobs easy, handling process management, queues, and cross-process communication automatically
+- **[tedivm/gitbrag](https://github.com/tedivm/gitbrag)** - CLI tool to generate lists of your open source contributions and pull requests across GitHub repositories
+- **[tedivm/qr_stencil_creator](https://github.com/tedivm/qr_stencil_creator)** - Web service for generating QR codes in SVG format optimized for creating stencils with laser cutters
+- **[tedivm/skysnoop](https://github.com/tedivm/skysnoop)** - Python SDK and CLI for querying real-time aircraft data from adsb.lol with async support and multiple backend options
+
+Using this template for your project? Add it to this list with a pull request!
 
 ## Get Started Today
 
