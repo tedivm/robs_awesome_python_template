@@ -96,7 +96,6 @@ if not INCLUDE_GITHUB_ACTIONS:
     remove_paths.add(f'docs/dev/github.md')
 
 if not INCLUDE_REQUIREMENTS_FILES:
-    remove_paths.add('.github/workflows/lockfiles.yaml')
     remove_paths.add(f'docs/dev/dependencies.md')
 
 if not INCLUDE_AGENT_INSTRUCTIONS:
@@ -132,6 +131,5 @@ def run_command(command):
 
 
 run_command('make all')
-if INCLUDE_REQUIREMENTS_FILES:
-   run_command('make dependencies')
+run_command('make lock')
 run_command('make chores')

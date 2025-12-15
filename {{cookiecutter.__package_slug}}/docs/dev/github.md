@@ -67,17 +67,6 @@ The project includes the following GitHub Actions workflows in `.github/workflow
 - **Command**: `make paracelsus_check`
 {%- endif %}
 
-{%- if cookiecutter.include_requirements_files == "y" %}
-
-### Dependency Workflows
-
-**lockfiles.yaml** - Requirements File Validation
-
-- **Trigger**: Every push and pull request
-- **Purpose**: Ensures requirements.txt files are synchronized with pyproject.toml
-- **Command**: `make dependencies`
-{%- endif %}
-
 {%- if cookiecutter.include_docker == "y" %}
 
 ### Build and Deployment Workflows

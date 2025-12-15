@@ -37,6 +37,7 @@ dependencies = [
 {%- endif %}
 {%- if cookiecutter.include_fastapi == "y" %}
   "fastapi",
+  "uvicorn[standard]",
 {%- endif %}
 {%- if cookiecutter.include_jinja2 == "y" %}
   "jinja2",
@@ -60,7 +61,7 @@ dependencies = [
 {%- endif %}
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
   "build",
   "dapperdata",
@@ -80,9 +81,7 @@ dev = [
   "ruamel.yaml",
   "ruff",
   "toml-sort",
-{%- if cookiecutter.include_requirements_files == "y" %}
   "uv"
-{% endif %}
 ]
 
 {% if cookiecutter.include_cli == "y" %}

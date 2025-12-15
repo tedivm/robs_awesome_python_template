@@ -86,9 +86,9 @@ make build
 
 **What it does**:
 
-1. Installs the correct Python version using pyenv (local only)
-2. Creates a virtual environment (`.venv`)
-3. Installs the package and all development dependencies
+1. Ensures uv is installed
+2. Creates a virtual environment using uv (automatically installs Python if needed)
+3. Installs the package and all development dependencies using uv
 
 **Usage**:
 
@@ -103,40 +103,41 @@ make install
 **Notes**:
 
 - Safe to run multiple times (idempotent)
-- In CI environments, skips pyenv and uses system Python
+- uv automatically installs the correct Python version from `.python-version`
 - Creates `.venv` directory if it doesn't exist
+- Much faster than traditional pip installation (10-100x speedup)
 
-### `make pip`
+### `make sync`
 
 **Purpose**: Install or update Python dependencies.
 
 **What it does**:
 
-- Installs the package in editable mode with development extras
+- Installs the package in editable mode with development extras using uv
 - Updates dependencies if `pyproject.toml` has changed
 
 **Usage**:
 
 ```bash
 # Update dependencies after pyproject.toml changes
-make pip
+make sync
 ```
 
-### `make pyenv`
+### `make uv`
 
-**Purpose**: Install the project's Python version using pyenv.
+**Purpose**: Ensure uv is installed.
 
 **What it does**:
 
-- Reads the Python version from `.python-version`
-- Installs that version using pyenv
-- Skips if the version is already installed
+- Checks if uv is available on the system
+- Installs uv via pip if not found
+- This is automatically called by `make install`
 
 **Usage**:
 
 ```bash
-# Install Python version (usually done automatically by `make install`)
-make pyenv
+# Ensure uv is installed (usually not needed directly)
+make uv
 ```
 
 ## Formatting Targets
@@ -394,56 +395,55 @@ make dapperdata_check
 make tomlsort_check
 ```
 
-{%- if cookiecutter.include_requirements_files == "y" %}
-
 ## Dependency Management
 
-### `make dependencies`
+### `make lock`
 
-**Purpose**: Compile dependency lock files from `pyproject.toml`.
+**Purpose**: Update the uv.lock lockfile with latest compatible versions.
 
 **What it does**:
 
-- Generates `requirements.txt` from main dependencies
-- Generates `requirements-dev.txt` including development dependencies
-- Pins exact versions for reproducible installations
-- Only runs if `pyproject.toml` has changed
+- Reads `pyproject.toml` for dependency specifications
+- Resolves all dependencies and transitive dependencies
+- Generates cross-platform `uv.lock` with exact versions and hashes
+- Uses `--upgrade` flag to get latest compatible versions
 
 **Usage**:
 
 ```bash
-# Update lock files after changing pyproject.toml
-make dependencies
+# Update lockfile with latest dependencies
+make lock
+
+# After modifying pyproject.toml
+make lock
 ```
 
-**Files Generated**:
+**File Generated**:
 
-- `requirements.txt` - Production dependencies with pinned versions
-- `requirements-dev.txt` - Development dependencies with pinned versions
+- `uv.lock` - Cross-platform lockfile with all dependencies, versions, and hashes
 
-### `make rebuild_dependencies`
+### `make lock-check`
 
-**Purpose**: Force rebuild of all dependency files with latest versions.
+**Purpose**: Verify that uv.lock is up-to-date with pyproject.toml.
 
 **What it does**:
 
-- Updates all dependencies to their latest compatible versions
-- Regenerates both requirements files
-- Uses `--upgrade` flag with uv
+- Checks if lockfile needs updating
+- Returns error if pyproject.toml changed without updating lock
+- Useful in CI/CD to ensure lockfile is committed
 
 **Usage**:
 
 ```bash
-# Update to latest dependency versions
-make rebuild_dependencies
+# Check if lockfile is current
+make lock-check
 ```
 
 **When to Use**:
 
-- Monthly dependency updates
-- After security vulnerability announcements
+- In CI/CD pipelines to verify lockfile freshness
+- Before committing changes to ensure lock is updated
 - When you want the latest compatible versions
-{%- endif %}
 
 ## Packaging Targets
 
@@ -636,9 +636,9 @@ The makefile respects several environment variables:
 
 **Effect**:
 
-- Skips pyenv installation
 - Uses system Python instead of creating `.venv`
 - Adjusts paths for CI environment
+- Still uses uv for fast dependency installation
 
 **Usage**:
 
@@ -756,49 +756,26 @@ git commit -m "Add migration: describe changes"
 ```
 
 {%- endif %}
-{%- if cookiecutter.include_requirements_files == "y" %}
 
 ### Dependency Updates
 
 ```bash
-# 1. Update pyproject.toml
+# 1. Update pyproject.toml (if needed)
 # ... modify dependencies ...
 
-# 2. Compile lock files
-make dependencies
+# 2. Update lockfile
+make lock
 
 # 3. Install updated dependencies
-make install
+make sync
 
 # 4. Run tests to verify compatibility
 make tests
 
 # 5. Commit changes
-git add pyproject.toml requirements*.txt
+git add pyproject.toml uv.lock
 git commit -m "Update dependencies"
 ```
-
-### Monthly Maintenance
-
-```bash
-# 1. Update to latest dependency versions
-make rebuild_dependencies
-
-# 2. Install updated dependencies
-make install
-
-# 3. Run full test suite
-make tests
-
-# 4. Fix any breaking changes
-# ... update code if needed ...
-
-# 5. Commit updates
-git add requirements*.txt
-git commit -m "Update dependencies to latest versions"
-```
-
-{%- endif %}
 
 ### Pre-Release Checklist
 
@@ -831,8 +808,8 @@ git push --tags
 
 The makefile automatically detects the environment:
 
-- **Local Development**: Uses `.venv` and pyenv
-- **CI Environment**: Uses system Python
+- **Local Development**: Uses `.venv` with uv for Python version management
+- **CI Environment**: Uses system Python with uv for fast dependency installation
 - **System Python Mode**: Skips virtual environment
 
 ### Target Dependencies
@@ -862,8 +839,8 @@ All operational targets are marked as `.PHONY` to ensure they run even if files 
 **Solution**:
 
 ```bash
-# Install Python using pyenv
-make pyenv
+# uv will automatically install Python when you run
+make install
 
 # Or install Python via your system package manager
 # Then run make install

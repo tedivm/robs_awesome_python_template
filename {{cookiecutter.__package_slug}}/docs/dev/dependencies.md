@@ -271,61 +271,76 @@ dependencies = [
 
 {%- if cookiecutter.include_requirements_files == "y" %}
 
-## Requirements Files
+## Lockfile Management
 
-This project can optionally generate `requirements.txt` files for compatibility with tools that don't support `pyproject.toml`:
+This project uses `uv.lock` for deterministic, reproducible dependency resolution across all environments.
 
-### Generate Requirements Files
+### What is uv.lock?
+
+The `uv.lock` file is a cross-platform lockfile that:
+
+- **Pins exact versions** of all dependencies and transitive dependencies
+- **Supports multiple platforms** (Linux, macOS, Windows, ARM64, AMD64)
+- **Ensures reproducibility** across development, CI, and production
+- **Faster than pip-tools** with built-in conflict resolution
+- **Version controlled** - should be committed to git
+
+### Generate/Update Lockfile
 
 ```bash
-# Generate both requirements files
-make dependencies
+# Update lockfile with latest compatible versions
+make lock
 
 # Or manually:
-make rebuild_dependencies
+uv lock --upgrade
+
+# Check if lockfile is up-to-date
+make lock-check
 ```
-
-This creates:
-
-- `requirements.txt`: Runtime dependencies only
-- `requirements-dev.txt`: Runtime + development dependencies
 
 ### How It Works
 
-Uses [uv](https://github.com/astral-sh/uv) for fast dependency resolution:
+uv reads `pyproject.toml` and generates a comprehensive lockfile:
 
 ```bash
-# Generate runtime requirements
-uv pip compile --output-file=requirements.txt pyproject.toml
+# Generate lockfile from pyproject.toml
+uv lock
 
-# Generate dev requirements
-uv pip compile --extra=dev --output-file=requirements-dev.txt pyproject.toml
+# Update all dependencies to latest compatible versions
+uv lock --upgrade
+
+# Verify lockfile is in sync with pyproject.toml
+uv lock --check
 ```
 
-### When to Use Requirements Files
+### Installing from Lockfile
 
-**Use `pyproject.toml`** (preferred):
-
-- Modern Python projects
-- Publishing to PyPI
-- Editable installs (`pip install -e .`)
-
-**Use `requirements.txt`**:
-
-- Legacy CI/CD systems
-- Docker images (for layer caching optimization)
-- Tools that don't support pyproject.toml
-- Exact reproducible environments
-
-### Installing from Requirements Files
+**Development** (with dev dependencies):
 
 ```bash
-# Install runtime requirements
-pip install -r requirements.txt
-
-# Install dev requirements
-pip install -r requirements-dev.txt
+# Install from lockfile with dev dependencies
+make sync
+# Or: uv sync --extra dev
 ```
+
+**Production** (no dev dependencies):
+
+```bash
+# Install from lockfile without dev dependencies
+uv sync --frozen --no-dev
+
+# Docker uses this for production images
+```
+
+### Why use uv.lock?
+
+**Advantages over requirements.txt**:
+
+- **Multi-platform**: Single file works on Linux, macOS, Windows, ARM64, AMD64
+- **Faster resolution**: Rust-powered performance for lockfile generation
+- **Better conflict detection**: Catches dependency conflicts earlier
+- **Complete dependency tree**: Includes all transitive dependencies with hashes
+- **Integrated workflow**: Seamless integration with uv commands
 
 {%- endif %}
 
@@ -334,32 +349,37 @@ pip install -r requirements-dev.txt
 ### Update All Dependencies
 
 ```bash
-# Update all packages to latest compatible versions
-pip install --upgrade -e .[dev]
+# Update lockfile with latest compatible versions
+make lock
 
-# Verify updates
-pip list --outdated
+# Or manually
+uv lock --upgrade
+
+# Then sync to install updated dependencies
+make sync
 ```
 
 {%- if cookiecutter.include_requirements_files == "y" %}
 
-### Rebuild Requirements Files with Updates
+### Regenerate Lockfile After Changes
 
 ```bash
-# Force update of all dependencies in requirements files
-make rebuild_dependencies
+# After modifying pyproject.toml
+make lock
 ```
 
 {%- endif %}
 
 ### Update Specific Dependency
 
-```bash
-# Update one package
-pip install --upgrade package-name
+To update a specific package, modify its version constraint in `pyproject.toml`, then:
 
-# Verify new version
-pip show package-name
+```bash
+# Update lockfile
+make lock
+
+# Install the update
+make sync
 ```
 
 ### Check for Outdated Packages
@@ -413,12 +433,18 @@ See [GitHub Actions Documentation](./github.md) for more details.
 ### Creating a Virtual Environment
 
 ```bash
-# Create virtual environment
-python -m venv .venv
+# Create virtual environment with uv (automatically installs Python if needed)
+uv venv
 
-# Or using make
+# Or using make (recommended)
 make install
 ```
+
+uv will automatically:
+
+- Read the Python version from `.python-version`
+- Download and install that Python version if not present
+- Create a virtual environment in `.venv`
 
 ### Activating the Virtual Environment
 
@@ -430,20 +456,26 @@ source .venv/bin/activate
 .venv\Scripts\activate
 ```
 
-### Using pyenv for Python Version Management
+### Using uv for Python Version Management
 
-This project uses pyenv to manage Python versions:
+This project uses uv to manage Python versions and virtual environments:
 
 ```bash
-# Install Python version specified in .python-version
-make pyenv
+# uv automatically installs the correct Python version when creating venv
+make install
 
-# Or manually
-pyenv install $(cat .python-version)
+# Or manually create venv with specific Python version
+uv venv --python $(cat .python-version)
 
-# Set local Python version
-pyenv local 3.11.0
+# uv will download and install Python if not present
 ```
+
+uv provides several advantages over traditional tools:
+
+- **Automatic Python installation**: No need for separate pyenv setup
+- **10-100x faster**: Rust-powered performance for package installation
+- **Drop-in pip replacement**: Compatible with existing workflows
+- **Built-in virtual environments**: Integrated venv management
 
 ### Checking Virtual Environment
 
@@ -478,25 +510,27 @@ that are installed. This behavior is the source of the following dependency conf
 
 ### Troubleshooting Steps
 
-1. **Update pip**:
+1. **Update uv**:
 
    ```bash
-   pip install --upgrade pip
+   pip install --upgrade uv
+   # Or reinstall via the installer
+   curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
 
 2. **Check for incompatible versions**:
 
    ```bash
-   pip check
+   uv pip check
    ```
 
 3. **Create fresh virtual environment**:
 
    ```bash
    rm -rf .venv
-   python -m venv .venv
+   uv venv
    source .venv/bin/activate
-   pip install -e .[dev]
+   uv pip install -e .[dev]
    ```
 
 4. **Install dependencies one at a time**:
@@ -534,10 +568,10 @@ pip install -r requirements.lock
 ### Development Installation
 
 ```bash
-# Install with all dev dependencies
-pip install -e .[dev]
+# Install with all dev dependencies using uv
+uv pip install -e .[dev]
 
-# Or use make
+# Or use make (recommended)
 make install
 ```
 
@@ -551,10 +585,13 @@ make install
 ### Production Installation
 
 ```bash
-# Install only runtime dependencies
-pip install .
+# Install only runtime dependencies using uv
+uv pip install .
 
 # Or from PyPI
+uv pip install {{cookiecutter.__package_slug}}
+
+# Traditional pip also works
 pip install {{cookiecutter.__package_slug}}
 ```
 
@@ -566,11 +603,14 @@ pip install {{cookiecutter.__package_slug}}
 
 ### Docker Production Images
 
-Production Docker images should only install runtime dependencies:
+Production Docker images use uv for faster installation:
 
 ```dockerfile
+# Install uv for fast package installation
+RUN pip install --no-cache-dir uv
+
 # Install only runtime dependencies (no [dev])
-RUN pip install --no-cache-dir -r requirements.txt
+RUN uv pip install --system --no-cache -r /requirements.txt
 ```
 
 ## Optional Dependency Groups
@@ -599,13 +639,13 @@ Install specific groups:
 
 ```bash
 # Install dev dependencies
-pip install -e .[dev]
+uv pip install -e .[dev]
 
 # Install multiple groups
-pip install -e .[dev,docs]
+uv pip install -e .[dev,docs]
 
 # Install all optional dependencies
-pip install -e .[dev,docs,performance]
+uv pip install -e .[dev,docs,performance]
 ```
 
 ## Build System Configuration
@@ -688,43 +728,81 @@ python -m build
 
 ```bash
 # Reinstall to pick up new dependencies
-pip install -e .[dev]
+uv pip install -e .[dev]
 
 # Verify package is installed
-pip show package-name
+uv pip show package-name
 ```
 
 ### "No module named 'setuptools_scm'"
 
 ```bash
-# Update pip and install build dependencies
-pip install --upgrade pip setuptools wheel
-pip install -e .[dev]
+# Update uv and install build dependencies
+pip install --upgrade uv
+uv pip install -e .[dev]
 ```
 
-### Slow Dependency Resolution
+### uv Not Found
 
 ```bash
-# Use uv for faster dependency resolution
+# Install uv via pip
 pip install uv
-uv pip install -e .[dev]
+
+# Or use the standalone installer (recommended)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# On Windows (PowerShell)
+irm https://astral.sh/uv/install.ps1 | iex
 ```
 
 ### Conflicting Dependencies
 
 ```bash
 # Show dependency tree
-pip install pipdeptree
+uv pip install pipdeptree
 pipdeptree
 
 # Find conflicts
 pipdeptree --warn conflicts
 ```
 
+## Why uv?
+
+This project uses [uv](https://docs.astral.sh/uv/) as the primary package manager for several compelling reasons:
+
+### Performance
+
+- **10-100x faster** than pip for package installation
+- Written in Rust for maximum performance
+- Parallel downloads and installations
+- Advanced caching strategies
+
+### Convenience
+
+- **Automatic Python management**: Downloads and installs Python versions as needed
+- **Drop-in pip replacement**: Compatible with existing pip commands
+- **Integrated virtual environments**: Built-in venv management
+- **Cross-platform**: Works on Linux, macOS, and Windows
+
+### Reliability
+
+- **Better dependency resolution**: More accurate conflict detection
+- **Lockfile generation**: Create reproducible environments
+- **Offline mode**: Cache packages for offline installation
+
+### Commands Comparison
+
+| Task | pip | uv |
+|------|-----|-----|
+| Install package | `pip install package` | `uv pip install package` |
+| Create venv | `python -m venv .venv` | `uv venv` |
+| Install Python | Requires pyenv/installer | `uv venv --python 3.14` (auto-downloads) |
+| Compile requirements | Requires pip-tools | `uv pip compile` (built-in) |
+| Speed | Baseline | 10-100x faster |
+
 ## References
 
 - [PEP 621 - Project Metadata](https://peps.python.org/pep-0621/)
 - [Python Packaging User Guide](https://packaging.python.org/)
-- [pip Documentation](https://pip.pypa.io/)
-- [pyenv Documentation](https://github.com/pyenv/pyenv)
-- [uv - Fast Python Package Installer](https://github.com/astral-sh/uv)
+- [uv Documentation](https://docs.astral.sh/uv/)
+- [uv GitHub Repository](https://github.com/astral-sh/uv)

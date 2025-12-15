@@ -12,4 +12,4 @@
 !/pyproject.toml
 !/README.md
 !/setup.*
-!/requirements*
+!/uv.lock

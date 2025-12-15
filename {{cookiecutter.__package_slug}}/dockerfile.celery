@@ -3,12 +3,34 @@ FROM ghcr.io/multi-py/python-celery:py${PYTHON_VERSION}-slim-LATEST
 
 ENV APP_MODULE={{ cookiecutter.__package_slug }}.celery:celery
 
-COPY requirements.txt /requirements.txt
-RUN pip install --no-cache-dir -r /requirements.txt
+# Install uv for fast package installation
+RUN pip install --no-cache-dir uv
 
 {%- if cookiecutter.include_sqlalchemy == "y" %}
 RUN apt-get update && apt-get install -y netcat-traditional && rm -rf /var/lib/apt/lists/*
 {%- endif %}
 
+# Configure UV to compile bytecode and skip dev dependencies
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_NO_DEV=1
+ENV UV_LINK_MODE=copy
+ENV UV_TOOL_BIN_DIR=/usr/local/bin
+
+# Set working directory
+WORKDIR /app
+
+# Add venv to PATH
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Copy dependency files
+COPY pyproject.toml uv.lock /app/
+
+# Install dependencies only (cached layer)
+RUN uv sync --frozen --no-install-project --python /usr/local/bin/python
+
+# Copy application code
 COPY ./docker/celery/prestart.sh /app/prestart.sh
-COPY ./ /app
+COPY . /app/
+
+# Install project
+RUN uv sync --frozen --python /usr/local/bin/python
