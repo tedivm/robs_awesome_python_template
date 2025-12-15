@@ -22,6 +22,7 @@ dynamic = ["version"]
 license = {"file" = "LICENSE"}
 name = "{{cookiecutter.__package_slug}}"
 readme = {file = "README.md", content-type = "text/markdown"}
+requires-python = ">=3.10"
 
 dependencies = [
 {%- if cookiecutter.include_sqlalchemy == "y" %}
