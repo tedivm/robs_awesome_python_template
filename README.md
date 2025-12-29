@@ -227,7 +227,7 @@ Real-world projects using this template in production:
 
 - **[tedivm/paracelsus](https://github.com/tedivm/paracelsus)** - Generates Entity Relationship Diagrams from SQLAlchemy models, creating beautiful visualizations in Mermaid or Graphviz format with automatic injection into documentation
 - **[tedivm/quasiqueue](https://github.com/tedivm/quasiqueue)** - Multiprocessing library that makes long-running parallel jobs easy, handling process management, queues, and cross-process communication automatically
-- **[tedivm/gitbrag](https://github.com/tedivm/gitbrag)** - CLI tool to generate lists of your open source contributions and pull requests across GitHub repositories
+- **[tedivm/gitbrag](https://github.com/tedivm/gitbrag)** - [Website](https://gitbrag.tedivm.com) and CLI that generates open source contribution reports from Github usernames
 - **[tedivm/qr_stencil_creator](https://github.com/tedivm/qr_stencil_creator)** - Web service for generating QR codes in SVG format optimized for creating stencils with laser cutters
 - **[tedivm/skysnoop](https://github.com/tedivm/skysnoop)** - Python SDK and CLI for querying real-time aircraft data from adsb.lol with async support and multiple backend options
 
