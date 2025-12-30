@@ -81,7 +81,7 @@ dev = [
   "pytest-pretty",
   "ruamel.yaml",
   "ruff",
-  "toml-sort",
+  "tombi",
   "uv"
 ]
 

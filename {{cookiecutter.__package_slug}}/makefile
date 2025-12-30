@@ -78,7 +78,7 @@ dapperdata_fixes:
 
 .PHONY: tomlsort_fixes
 tomlsort_fixes:
-	$(PYTHON_ENV) toml-sort $$(find . -not -path "./.venv/*" -name "*.toml") -i
+	$(PYTHON_ENV) tombi format $$(find . -not -path "./.venv/*" -name "*.toml")
 
 #
 # Testing
@@ -118,7 +118,8 @@ dapperdata_check:
 
 .PHONY: tomlsort_check
 tomlsort_check:
-	$(PYTHON_ENV) toml-sort $$(find . -not -path "./.venv/*" -name "*.toml") --check
+	$(PYTHON_ENV) tombi lint $$(find . -not -path "./.venv/*" -name "*.toml")
+	$(PYTHON_ENV) tombi format $$(find . -not -path "./.venv/*" -name "*.toml") --check
 
 
 
