@@ -4,75 +4,61 @@ You should always follow the best practices outlined in this document. If there 
 
 Before beginning any task, make sure you review the documentation (`docs/dev/` and `README.md`), the existing tests to understand the project, and the task runner (Makefile) to understand what dev tools are available and how to use them. You should review code related to your request to understand preferred style: for example, you should review other tests before writing a new test suite, or review existing routers before creating a new one.
 
-## Common Commands
+## Important Commands
 
-### Development Setup
+### Development Environment Setup
 
 ```bash
-# Create virtual environment and install dependencies
-make install
-
-# Update lockfile with latest compatible versions
-make lock
-
-# Install updated dependencies
-make sync
+make install # Install dependencies and set up virtual environment
+make sync # Sync dependencies with uv.lock
+make pre-commit # Install pre-commit hooks
 ```
 
-### Testing & Quality
+### File Operations
 
 ```bash
-# Run test suite with coverage
-make pytest
-
-# Run all quality checks (tests, type checking, linting, formatting)
-make tests
-
-# Type checking with mypy
-make mypy_check
-
-# Linting with ruff (check only)
-make ruff_check
-
-# Format checking with ruff
-make black_check
-
-# Auto-fix linting and formatting issues
-make chores
+git mv old_path new_path # ALWAYS use git mv for moving or renaming files, never use mv or file manipulation tools
 ```
 
-### Code Formatting
+**CRITICAL**: When moving or renaming files in a git repository, you MUST use `git mv` instead of regular `mv` or file manipulation tools. This ensures git properly tracks the file history and prevents issues with version control.
+
+### Testing and Validation
 
 ```bash
-# Run all formatting fixes (ruff, dapperdata, toml-sort)
-make chores
+make tests # Run all tests and checks (pytest, ruff, black, mypy, dapperdata, tomlsort)
+make pytest # Run pytest with coverage report
+make pytest_loud # Run pytest with debug logging enabled
+uv run pytest # Run pytest directly with uv, adding any arguments and options needed
+```
 
-# Fix ruff linting issues
-make ruff_fixes
+### Code Quality Checks
 
-# Format code with ruff
-make black_fixes
+```bash
+make ruff_check # Check code with ruff linter
+make black_check # Check code formatting with ruff format using the black format
+make mypy_check # Run type checking with mypy
+make dapperdata_check # Check data file formatting
+make tomlsort_check # Check TOML file linting and formatting
+```
 
-# Fix YAML/JSON formatting with dapperdata
-make dapperdata_fixes
+### Code Formatting (Auto-fix)
 
-# Sort TOML files
-make tomlsort_fixes
+```bash
+make chores # Run all formatting fixes (ruff, black, dapperdata, tomlsort)
+make ruff_fixes # Auto-fix ruff issues
+make black_fixes # Auto-format code with ruff using the black format
+make dapperdata_fixes # Auto-format data files
+make tomlsort_fixes # Auto-format TOML files
 ```
 
 ### Dependency Management
 
 ```bash
-# Add a new dependency (edit pyproject.toml, then run)
-make lock
-make sync
-
-# Add a dev dependency (add to [dependency-groups] dev in pyproject.toml, then run)
-make lock
-make sync
-
-# Check if lockfile is up to date
-make lock-check
+make lock # Update and lock dependencies
+make lock-check # Check if lock file is up to date
+uv add package_name # Add a new package dependency
+uv add --group dev package_name # Add a dev dependency
+uv remove package_name # Remove a package dependency
 ```
 
 {%- if cookiecutter.include_sqlalchemy == "y" %}
@@ -80,65 +66,40 @@ make lock-check
 ### Database Operations
 
 ```bash
-# Run database migrations
-make run_migrations
-
-# Create a new migration
-make create_migration MESSAGE="description of changes"
-
-# Check for ungenerated migrations
-make check_ungenerated_migrations
-
-# Reset database (clear and run migrations)
-make reset_db
-
-# Clear database
-make clear_db
-
-# Update database schema documentation
-make document_schema
+make create_migration MESSAGE="description of changes" # Create a new migration
+make check_ungenerated_migrations # Check for ungenerated migrations
+make document_schema # Update database schema documentation
 ```
 
 {%- endif %}
 
 {%- if cookiecutter.publish_to_pypi == "y" %}
 
-### Building & Packaging
+### Packaging
 
 ```bash
-# Build package
-make build
+make build # Build package distribution
 ```
 
 {%- endif %}
 
-### Using UV Directly
+{%- if cookiecutter.include_docker == "y" %}
+
+### Docker
 
 ```bash
-# Run Python module
-uv run python -m module_name
-
-# Run script
-uv run python script.py
-
-# Run pytest
-uv run pytest
-
-# Add package to project dependencies
-uv add package_name
-
-# Remove package
-uv remove package_name
-
-# Update all dependencies
-uv lock --upgrade
-
-# Sync dependencies from lockfile
-uv sync
-
-# Sync with dev dependencies
-uv sync --group dev
+docker compose up -d # Start development environment and detach session
+docker compose down # Stop development environment (preserves volumes)
+docker compose down -v # Stop and remove development environment (including volumes)
+docker compose restart # Restart all services without destroying containers or volumes
+docker compose logs # View logs from all services
+docker compose logs -f # Follow logs in real-time from all services
+docker compose logs -f service_name # Follow logs for a specific service
+docker compose ps # List running services and their status
+docker compose exec service_name bash # Open a bash shell in a running service container
 ```
+
+{%- endif %}
 
 ## Best Practices
 
