@@ -135,6 +135,22 @@ docker compose exec service_name bash # Open a bash shell in a running service c
 * Use logging levels to allow developers to enable richer logging while testing than in production.
 * Most caught exceptions should be logged with `logger.exception`.
 
+```python
+from logging import getLogger
+from typing import Dict
+
+logger = getLogger(__name__)
+
+def process_data(data: Dict[str, str]) -> None:
+    logger.debug("Starting data processing")
+    try:
+        result = transform_data(data)
+        logger.info("Data processed successfully")
+    except ValueError as e:
+        logger.exception("Failed to process data")
+        raise
+```
+
 ### Commenting
 
 * Comments should improve code readability and understandability.
@@ -147,6 +163,24 @@ docker compose exec service_name bash # Open a bash shell in a running service c
 * Do not suppress exceptions unless expected, and handle them properly when suppressing.
 * When suppressing exceptions, log them using `logger.exception`.
 
+```python
+# Bad: Suppressing without handling
+try:
+    risky_operation()
+except Exception:
+    pass  # Never do this
+
+# Good: Proper handling with logging
+try:
+    risky_operation()
+except ValueError as e:
+    logger.exception("Operation failed with invalid value")
+    raise
+except FileNotFoundError:
+    logger.warning("File not found, using defaults")
+    use_defaults()
+```
+
 ### Typing
 
 * Everything should be typed: function signatures (including return values), variables, and anything else.
@@ -156,12 +190,67 @@ docker compose exec service_name bash # Open a bash shell in a running service c
 * Avoid using `Any` unless absolutely necessary.
 * If the schema is defined, use a `dataclass` with properly typed parameters instead of a `dict`.
 
+```python
+from dataclasses import dataclass
+from typing import Dict, List
+
+# Good: Proper typing
+@dataclass
+class User:
+    name: str
+    email: str
+    age: int | None = None
+
+def process_users(users: List[User], tags: Dict[str, str]) -> List[str]:
+    results: List[str] = []
+    for user in users:
+        results.append(user.name)
+    return results
+
+# Bad: Using dict instead of dataclass (and using native types)
+def process_users_bad(users: list[dict], config: dict) -> list:
+    pass  # Avoid this
+```
+
 ### Settings
 
 * Manage application settings with the `pydantic-settings` library.
+* The main Settings class is located in `PACKAGE_NAME/conf/settings.py` - update this existing class rather than creating new ones.
 * Sensitive configuration data should always use Pydantic `SecretStr` or `SecretBytes` types.
 * Settings that are allowed to be unset should default to `None` instead of empty strings.
 * Define settings with the Pydantic `Field` function and include descriptions for users.
+
+```python
+# File: {{cookiecutter.__package_slug}}/conf/settings.py
+from pydantic import Field, SecretStr
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    project_name: str = Field(default="MyProject", description="Project name")
+
+    # Good: Using SecretStr for sensitive data
+    database_password: SecretStr = Field(
+        description="Database password"
+    )
+
+    # Good: Optional field defaults to None
+    api_key: str | None = Field(
+        default=None,
+        description="Optional API key for external service"
+    )
+
+    # Good: Using Field with description
+    max_connections: int = Field(
+        default=10,
+        description="Maximum number of database connections"
+    )
+```
 
 {%- if cookiecutter.include_fastapi == "y" %}
 
@@ -171,6 +260,47 @@ docker compose exec service_name bash # Open a bash shell in a running service c
 * All routes should use Pydantic models for input and output.
 * Use different Pydantic models for inputs and outputs (i.e., creating a `Post` should require a `PostCreate` and return a `PostRead` model, not reuse the same model).
 * Parameters in Pydantic models for user input should use the Field function with validation and descriptions.
+
+```python
+from uuid import UUID
+
+from fastapi import APIRouter, HTTPException, status
+from pydantic import BaseModel, Field
+
+router = APIRouter()
+
+class PostCreate(BaseModel):
+    title: str = Field(min_length=1, max_length=200, description="Post title")
+    content: str = Field(min_length=1, description="Post content")
+
+class PostRead(BaseModel):
+    id: UUID
+    title: str
+    content: str
+    created_at: str
+
+class PostUpdate(BaseModel):
+    title: str | None = Field(default=None, max_length=200)
+    content: str | None = None
+
+@router.post("/posts", response_model=PostRead, status_code=status.HTTP_201_CREATED)
+async def create_post(post: PostCreate) -> PostRead:
+    # Use different model for input (PostCreate) and output (PostRead)
+    pass
+
+@router.get("/posts/{post_id}", response_model=PostRead)
+async def get_post(post_id: UUID) -> PostRead:
+    pass
+
+@router.put("/posts/{post_id}", response_model=PostRead)
+async def update_post(post_id: UUID, post: PostUpdate) -> PostRead:
+    pass
+
+@router.delete("/posts/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_post(post_id: UUID) -> None:
+    pass
+```
+
 {%- endif %}
 
 {%- if cookiecutter.include_sqlalchemy == "y" %}
@@ -182,6 +312,43 @@ docker compose exec service_name bash # Open a bash shell in a running service c
 * Use Alembic to define migrations.
 * Migrations should be compatible with both SQLite and PostgreSQL.
 * When creating queries, do not use implicit `and`: instead use the `and_` function (instead of `where(Model.parameter_a == A, Model.parameter_b == B)` do `where(and_(Model.parameter_a == A, Model.parameter_b == B))`).
+
+```python
+from uuid import UUID, uuid4
+
+from sqlalchemy import and_, select
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import Mapped, mapped_column
+
+from {{cookiecutter.__package_slug}}.models.base import Base
+
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
+    email: Mapped[str] = mapped_column(unique=True)
+    name: Mapped[str]
+    is_active: Mapped[bool] = mapped_column(default=True)
+
+# Good: Async query with explicit and_()
+async def get_active_user(session: AsyncSession, email: str, name: str) -> User | None:
+    stmt = select(User).where(
+        and_(
+            User.email == email,
+            User.name == name,
+            User.is_active == True
+        )
+    )
+    result = await session.execute(stmt)
+    return result.scalar_one_or_none()
+
+# Bad: Implicit and (avoid this)
+async def get_user_bad(session: AsyncSession, email: str, name: str) -> User | None:
+    stmt = select(User).where(User.email == email, User.name == name)
+    result = await session.execute(stmt)
+    return result.scalar_one_or_none()
+```
+
 {%- endif %}
 
 {%- if cookiecutter.include_cli == "y" %}
@@ -190,6 +357,41 @@ docker compose exec service_name bash # Open a bash shell in a running service c
 
 * Any CLI command or script that should be accessible to users should be exposed via the Typer library.
 * The main CLI entrypoint should be `PACKAGE_NAME/cli.py`.
+* For async commands, use the `@syncify` decorator provided in `cli.py` to convert async functions to sync for Typer compatibility.
+
+```python
+import typer
+from typing import Annotated
+
+from {{cookiecutter.__package_slug}}.cli import syncify
+
+app = typer.Typer()
+
+@app.command()
+def process(
+    input_file: Annotated[str, typer.Argument(help="Path to input file")],
+    output_file: Annotated[str | None, typer.Option(help="Path to output file")] = None,
+    verbose: Annotated[bool, typer.Option("--verbose", "-v", help="Enable verbose output")] = False,
+) -> None:
+    """Process the input file and generate output."""
+    if verbose:
+        typer.echo(f"Processing {input_file}...")
+    # Processing logic here
+    typer.echo("Done!")
+
+@app.command()
+@syncify
+async def fetch(
+    url: Annotated[str, typer.Argument(help="URL to fetch data from")],
+) -> None:
+    """Fetch data from a URL asynchronously."""
+    # Async operations here (database queries, HTTP requests, etc.)
+    typer.echo(f"Fetching from {url}")
+
+if __name__ == "__main__":
+    app()
+```
+
 {%- endif %}
 
 ### Testing
