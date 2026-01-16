@@ -6,6 +6,8 @@ Transform any Python idea into a production-ready project in minutes. This Cooki
 
 **Quick Links:** [Quick Start](#quick-start) • [Core Features](#core-features-always-included) • [Optional Integrations](#optional-integrations) • [Project Examples](#project-examples) • [Built With This Template](#built-with-this-template)
 
+[![Star History Chart](https://api.star-history.com/svg?repos=tedivm/robs_awesome_python_template&type=date&legend=top-left)](https://www.star-history.com/#tedivm/robs_awesome_python_template&type=date&legend=top-left)
+
 ## Why Choose This Template?
 
 - **Modern Development Tools**: Get a fully configured environment with Ruff (formatting/linting), mypy (type checking), pytest (testing), and pre-commit hooks ready to use
