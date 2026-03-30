@@ -20,7 +20,7 @@ make pre-commit # Install pre-commit hooks
 git mv old_path new_path # ALWAYS use git mv for moving or renaming files, never use mv or file manipulation tools
 ```
 
-**CRITICAL**: When moving or renaming files in a git repository, you MUST use `git mv` instead of regular `mv` or file manipulation tools. This ensures git properly tracks the file history and prevents issues with version control.
+**CRITICAL**: When moving or renaming files in a git repository, you MUST use `git mv` instead of regular `mv` or file manipulation tools. This ensures git properly tracks the file history and prevents issues with version control. The only exception to this is if you are moving files which are not tracked in git, as in that case `git mv` will have no effect.
 
 ### Testing and Validation
 
