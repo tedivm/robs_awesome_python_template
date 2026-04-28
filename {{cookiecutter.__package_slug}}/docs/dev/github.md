@@ -37,11 +37,11 @@ The project includes the following GitHub Actions workflows in `.github/workflow
 - **Purpose**: Validates type hints and catches type-related errors
 - **Command**: `make mypy_check`
 
-**dapperdata.yaml** - Data Format Validation
+**prettier.yaml** - Configuration File Formatting
 
 - **Trigger**: Every push and pull request
-- **Purpose**: Validates data file formatting (YAML, JSON, etc.)
-- **Command**: `make dapperdata_check`
+- **Purpose**: Validates markdown/JSON/YAML/config file formatting with prettier
+- **Command**: `make prettier_check`
 
 **tomlsort.yaml** - TOML File Sorting
 

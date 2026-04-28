@@ -790,7 +790,7 @@ Tests run automatically on every push and pull request via GitHub Actions. The C
 2. **Checks code formatting** with ruff
 3. **Performs type checking** with mypy
 4. **Validates linting rules** with ruff
-5. **Checks data formatting** with dapperdata
+5. **Checks config/markdown formatting** with prettier
 6. **Verifies TOML formatting** with toml-sort
 
 See the [GitHub Actions documentation](./github.md) for more details on CI configuration.

@@ -65,7 +65,6 @@ dependencies = [
 [dependency-groups]
 dev = [
   "build",
-  "dapperdata",
   "glom",
   "greenlet",
 {%- if cookiecutter.include_fastapi == "y" %}

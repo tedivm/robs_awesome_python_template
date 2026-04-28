@@ -150,7 +150,7 @@ make uv
 
 - Fixes linting issues with Ruff
 - Formats code with Black (via Ruff)
-- Formats data files with dapperdata
+- Formats markdown/JSON/YAML/config files with prettier
 - Sorts TOML files
 {%- if cookiecutter.include_sqlalchemy == "y" %}
 - Updates database schema documentation
@@ -197,21 +197,22 @@ make ruff_fixes
 make black_fixes
 ```
 
-### `make dapperdata_fixes`
+### `make prettier_fixes`
 
-**Purpose**: Format JSON and YAML data files.
+**Purpose**: Format markdown, JSON, YAML, and other config files.
 
 **What it does**:
 
-- Pretty-prints JSON files
 - Formats YAML files consistently
-- Fixes indentation and structure
+- Pretty-prints JSON files
+- Formats markdown files
+- Handles other supported file types (TOML, CSS, etc.)
 
 **Usage**:
 
 ```bash
-# Format data files
-make dapperdata_fixes
+# Format config and data files
+make prettier_fixes
 ```
 
 ### `make tomlsort_fixes`
@@ -243,7 +244,7 @@ make tomlsort_fixes
 3. Checks linting (ruff)
 4. Checks formatting (black)
 5. Runs type checking (mypy)
-6. Checks data file formatting
+6. Checks config/markdown formatting (prettier)
 7. Checks TOML file sorting
 {%- if cookiecutter.include_sqlalchemy == "y" %}
 8. Verifies database schema documentation is up-to-date
@@ -363,20 +364,20 @@ make black_check
 make mypy_check
 ```
 
-### `make dapperdata_check`
+### `make prettier_check`
 
-**Purpose**: Check data file formatting without modifying.
+**Purpose**: Check markdown, JSON, YAML, and config file formatting without modifying.
 
 **What it does**:
 
-- Verifies JSON/YAML files are properly formatted
+- Verifies YAML/JSON/markdown files are properly formatted
 - Exits with error if files need formatting
 
 **Usage**:
 
 ```bash
-# Check data file formatting
-make dapperdata_check
+# Check config and data file formatting
+make prettier_check
 ```
 
 ### `make tomlsort_check`

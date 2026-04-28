@@ -25,7 +25,7 @@ git mv old_path new_path # ALWAYS use git mv for moving or renaming files, never
 ### Testing and Validation
 
 ```bash
-make tests # Run all tests and checks (pytest, ruff, black, mypy, dapperdata, tomlsort)
+make tests # Run all tests and checks (pytest, ruff, black, mypy, prettier, tomlsort)
 make pytest # Run pytest with coverage report
 make pytest_loud # Run pytest with debug logging enabled
 uv run pytest # Run pytest directly with uv, adding any arguments and options needed
@@ -37,17 +37,17 @@ uv run pytest # Run pytest directly with uv, adding any arguments and options ne
 make ruff_check # Check code with ruff linter
 make black_check # Check code formatting with ruff format using the black format
 make mypy_check # Run type checking with mypy
-make dapperdata_check # Check data file formatting
+make prettier_check # Check markdown/json/yaml/etc formatting with prettier
 make tomlsort_check # Check TOML file linting and formatting
 ```
 
 ### Code Formatting (Auto-fix)
 
 ```bash
-make chores # Run all formatting fixes (ruff, black, dapperdata, tomlsort)
+make chores # Run all formatting fixes (ruff, black, prettier, tomlsort)
 make ruff_fixes # Auto-fix ruff issues
 make black_fixes # Auto-format code with ruff using the black format
-make dapperdata_fixes # Auto-format data files
+make prettier_fixes # Auto-format markdown/json/yaml/etc
 make tomlsort_fixes # Auto-format TOML files
 ```
 
