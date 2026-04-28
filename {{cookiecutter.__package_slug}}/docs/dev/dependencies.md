@@ -110,7 +110,7 @@ Development dependencies are organized in the `[project.optional-dependencies]` 
 - **ruff**: Fast Python linter and formatter (replaces Black, isort, Flake8)
 - **mypy**: Static type checker for catching type-related bugs
 - **build**: PEP 517 build frontend for creating distribution packages
-- **dapperdata**: Data formatting and validation tool
+- **prettier**: Universal code formatter for YAML, JSON, Markdown, and other config files (runs via npx)
 - **glom**: Nested data access and transformation
 - **greenlet**: Lightweight concurrent programming support (required for coverage with async)
 - **toml-sort**: Automatic TOML file sorting for consistency

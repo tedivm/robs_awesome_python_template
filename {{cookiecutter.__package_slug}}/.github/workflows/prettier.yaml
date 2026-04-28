@@ -1,0 +1,14 @@
+name: Configuration File Formatting
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Check Formatting
+        run: npx --yes prettier --check . --log-level warn

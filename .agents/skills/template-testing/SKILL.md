@@ -1,4 +1,5 @@
 ---
+name: template-testing
 description: "Comprehensive testing of the cookiecutter template across all configurations."
 ---
 
@@ -39,7 +40,7 @@ make mypy_check  # Type checking
 make ruff_check  # Linting
 ```
 
-Note: Formatting issues (dapperdata, tomlsort, paracelsus) can be auto-fixed with `make chores` and are not critical for validation.
+Note: Formatting issues (prettier, tomlsort, paracelsus) can be auto-fixed with `make chores` and are not critical for validation.
 
 #### Step 3: Verify Results
 
@@ -136,7 +137,6 @@ Standard configurations should produce these results:
 After testing, provide a summary that includes:
 
 1. **Configuration Results**: For each tested configuration
-
    - Configuration name
    - Number of tests run
    - Number of tests passed/failed
@@ -144,7 +144,6 @@ After testing, provide a summary that includes:
    - Any errors or warnings
 
 2. **Test Output Analysis**: Key findings from test execution
-
    - Any deprecation warnings
    - Performance issues
    - Coverage gaps in important modules

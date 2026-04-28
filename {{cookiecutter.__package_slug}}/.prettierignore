@@ -1,0 +1,7 @@
+.venv/
+{{cookiecutter.__package_slug}}.egg-info/
+tmp/
+.*/**/*.md
+{%- if cookiecutter.include_sqlalchemy == "y" %}
+docs/dev/database.md
+{%- endif %}

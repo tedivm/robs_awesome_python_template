@@ -10,7 +10,7 @@ Transform any Python idea into a production-ready project in minutes. This Cooki
 
 ## Why Choose This Template?
 
-- **Modern Development Tools**: Get a fully configured environment with Ruff (formatting/linting), mypy (type checking), pytest (testing), and pre-commit hooks ready to use
+- **Modern Development Tools**: Get a fully configured environment with Ruff (formatting/linting), prettier (YAML/JSON/Markdown formatting), mypy (type checking), pytest (testing), and pre-commit hooks ready to use
 - **Production-Ready Frameworks**: Optional integration with FastAPI (web APIs), Celery (distributed tasks), SQLAlchemy + Alembic (database ORM), and QuasiQueue (multiprocessing)
 - **Professional Infrastructure**: Includes Docker containerization, GitHub Actions CI/CD, Pydantic Settings for configuration, and Makefile automation
 - **Developer-Friendly CLI**: Optional Typer integration for building beautiful command-line interfaces with automatic help and shell completion
@@ -47,6 +47,7 @@ Every project created with this template includes these essential components:
 
 - **[Ruff](https://docs.astral.sh/ruff/)**: Blazingly fast Python linter and formatter (10-100x faster than Black) that replaces multiple tools (Flake8, isort, Black) with a single, zero-configuration solution written in Rust
 - **[mypy](https://mypy.readthedocs.io/en/stable/)**: Industry-standard static type checker that catches type-related bugs before runtime, providing IDE autocompletion and making refactoring safer
+- **[prettier](https://prettier.io/)**: Universal code formatter for YAML, JSON, Markdown, and other config files, running via npx with no Python dependency needed and consistent formatting across all supported file types
 - **[pytest](https://docs.pytest.org/)**: Python's most popular testing framework with powerful fixtures, parametrization, full async/await support, and extensive plugin ecosystem for testing web apps, databases, and more
 - **Coverage reporting**: Comprehensive test coverage tracking with support for multiprocess and distributed applications, ensuring your tests exercise all code paths
 
@@ -153,7 +154,7 @@ Pick and choose the features you need. Unused components are completely removed 
 **Comprehensive [GitHub Actions](https://docs.github.com/en/actions)**
 
 - Matrix testing across multiple Python versions (3.10, 3.11, 3.12, 3.13, 3.14) to ensure broad compatibility before release
-- Automated code quality enforcement with Ruff for formatting and linting, mypy for type checking, and pytest for test execution
+- Automated code quality enforcement with Ruff for formatting and linting, prettier for YAML/JSON/Markdown formatting, mypy for type checking, and pytest for test execution
 - Fully automated PyPI publishing triggered by git tags, with automatic changelog generation, version bumping, and release notes from commit messages
 - Container image building and multi-architecture publishing to GitHub Container Registry and Docker Hub, with automatic tagging based on branches and release/tag versions
 - Intelligent dependency updates using Dependabot and [uv](https://pypi.org/project/uv/) lockfile management for fast, reproducible builds and automated PR creation for updates
