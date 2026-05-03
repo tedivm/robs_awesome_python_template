@@ -130,6 +130,22 @@ def run_command(command):
         sys.exit(returncode)
 
 
+def run_command_loose(command):
+    print(f"Running '{command}'")
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+    for c in iter(lambda: process.stdout.read(1), b""):
+        sys.stdout.buffer.write(c)
+
+    returncode = process.wait()
+    if returncode != 0:
+        print(f"Warning: '{command}' failed with exit code {returncode}")
+
+
 run_command('make all')
 run_command('make lock')
-run_command('make chores')
+
+chore_targets = ['ruff_fixes', 'black_fixes', 'prettier_fixes', 'tomlsort_fixes']
+if INCLUDE_SQLALCHEMY:
+    chore_targets.append('document_schema')
+for target in chore_targets:
+    run_command_loose(f'make {target}')
