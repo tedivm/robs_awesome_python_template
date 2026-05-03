@@ -74,6 +74,7 @@ black_fixes:
 
 .PHONY: prettier_fixes
 prettier_fixes:
+	@command -v npx >/dev/null 2>&1 || { echo >&2 "Error: npx is not installed. Please install Node.js (https://nodejs.org/) to use prettier."; exit 1; }
 	npx --yes prettier --write . --log-level warn
 
 .PHONY: tomlsort_fixes
@@ -114,6 +115,7 @@ mypy_check:
 
 .PHONY: prettier_check
 prettier_check:
+	@command -v npx >/dev/null 2>&1 || { echo >&2 "Error: npx is not installed. Please install Node.js (https://nodejs.org/) to use prettier."; exit 1; }
 	npx --yes prettier --check . --log-level warn
 
 .PHONY: tomlsort_check
