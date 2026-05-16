@@ -1,4 +1,5 @@
 """Tests for Celery task queue configuration."""
+import logging
 import pytest
 from {{cookiecutter.__package_slug}}.celery import celery, hello_world
 
@@ -39,6 +40,7 @@ def test_hello_world_task_name():
 
 def test_hello_world_execution(caplog):
     """Test that hello_world task executes without error."""
+    caplog.set_level(logging.INFO)
     # Run the task directly (not async)
     hello_world()
 

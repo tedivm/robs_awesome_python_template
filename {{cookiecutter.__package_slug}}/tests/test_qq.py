@@ -1,4 +1,5 @@
 """Tests for QuasiQueue configuration and functionality."""
+import logging
 import pytest
 from {{cookiecutter.__package_slug}}.qq import runner, writer, reader
 
@@ -81,6 +82,7 @@ def test_reader_is_async():
 @pytest.mark.asyncio
 async def test_reader_with_integer(caplog):
     """Test reader with an integer identifier."""
+    caplog.set_level(logging.INFO)
     await reader(42)
     assert "42" in caplog.text
 
@@ -88,6 +90,7 @@ async def test_reader_with_integer(caplog):
 @pytest.mark.asyncio
 async def test_reader_with_string(caplog):
     """Test reader with a string identifier."""
+    caplog.set_level(logging.INFO)
     await reader("test_value")
     assert "test_value" in caplog.text
 
@@ -95,6 +98,7 @@ async def test_reader_with_string(caplog):
 @pytest.mark.asyncio
 async def test_reader_prints_output(caplog):
     """Test that reader logs its identifier."""
+    caplog.set_level(logging.INFO)
     test_id = "test_123"
     await reader(test_id)
     assert test_id in caplog.text

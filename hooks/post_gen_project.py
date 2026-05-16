@@ -20,7 +20,7 @@ PACKAGE_SLUG="{{cookiecutter.__package_slug}}"
 
 remove_paths=set([])
 docker_containers=set([])
-CHECK_FOR_EMPTY_DIRS = [f'{PACKAGE_SLUG}/services', 'docs/dev', 'docs']
+CHECK_FOR_EMPTY_DIRS = [f'{PACKAGE_SLUG}/services', 'docs/dev', 'docs', '.agents/skills', '.agents']
 
 if INCLUDE_FASTAPI:
     docker_containers.add('www')
@@ -100,6 +100,23 @@ if not INCLUDE_REQUIREMENTS_FILES:
 
 if not INCLUDE_AGENT_INSTRUCTIONS:
     remove_paths.add(f'AGENTS.md')
+    remove_paths.add(f'.agents')
+else:
+    # Remove skills that don't apply to the generated project
+    if not INCLUDE_CLI:
+        remove_paths.add(f'.agents/skills/typer-cli')
+    if not INCLUDE_FASTAPI:
+        remove_paths.add(f'.agents/skills/fastapi-routes')
+    if not INCLUDE_SQLALCHEMY:
+        remove_paths.add(f'.agents/skills/sqlalchemy-models')
+    if not INCLUDE_DOCKER:
+        remove_paths.add(f'.agents/skills/docker-compose')
+    if not INCLUDE_CELERY:
+        remove_paths.add(f'.agents/skills/celery-tasks')
+    if not INCLUDE_AIOCACHE:
+        remove_paths.add(f'.agents/skills/aiocache')
+    if not INCLUDE_JINJA2:
+        remove_paths.add(f'.agents/skills/jinja-templates')
 
 for path in remove_paths:
     path = path.strip()

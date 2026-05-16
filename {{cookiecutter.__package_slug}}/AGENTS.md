@@ -20,7 +20,7 @@ make pre-commit # Install pre-commit hooks
 git mv old_path new_path # ALWAYS use git mv for moving or renaming files, never use mv or file manipulation tools
 ```
 
-**CRITICAL**: When moving or renaming files in a git repository, you MUST use `git mv` instead of regular `mv` or file manipulation tools. This ensures git properly tracks the file history and prevents issues with version control. The only exception to this is if you are moving files which are not tracked in git, as in that case `git mv` will have no effect.
+**CRITICAL**: When moving or renaming files in a git repository, you MUST use `git mv` instead of regular `mv` or file manipulation tools. This ensures git properly tracks file history and prevents issues with version control. The only exception to this is if you are moving files which are not tracked in git, as in that case `git mv` will have no effect.
 
 ### Testing and Validation
 
@@ -30,6 +30,8 @@ make pytest # Run pytest with coverage report
 make pytest_loud # Run pytest with debug logging enabled
 uv run pytest # Run pytest directly with uv, adding any arguments and options needed
 ```
+
+For full testing conventions, fixture patterns, and database test strategies, see the `python-testing` skill.
 
 ### Code Quality Checks
 
@@ -71,6 +73,8 @@ make check_ungenerated_migrations # Check for ungenerated migrations
 make document_schema # Update database schema documentation
 ```
 
+For full model conventions, query patterns, and migration workflows, see the `sqlalchemy-models` skill.
+
 {%- endif %}
 
 {%- if cookiecutter.publish_to_pypi == "y" %}
@@ -91,13 +95,9 @@ make build # Build package distribution
 docker compose up -d # Start development environment and detach session
 docker compose down # Stop development environment (preserves volumes)
 docker compose down -v # Stop and remove development environment (including volumes)
-docker compose restart # Restart all services without destroying containers or volumes
-docker compose logs # View logs from all services
-docker compose logs -f # Follow logs in real-time from all services
-docker compose logs -f service_name # Follow logs for a specific service
-docker compose ps # List running services and their status
-docker compose exec service_name bash # Open a bash shell in a running service container
 ```
+
+For the full Docker Compose command reference and common workflows, see the `docker-compose` skill.
 
 {%- endif %}
 
@@ -214,92 +214,17 @@ def process_users_bad(users: list[dict], config: dict) -> list:
 
 ### Settings
 
-* Manage application settings with the `pydantic-settings` library.
-* The main Settings class is located in `PACKAGE_NAME/conf/settings.py` - update this existing class rather than creating new ones.
-* Sensitive configuration data must always use Pydantic `SecretStr` or `SecretBytes` types.
-* Settings that are allowed to be unset must default to `None` instead of empty strings.
-* Define settings with the Pydantic `Field` function and include descriptions for users.
+Manage application settings with `pydantic-settings` in `{{cookiecutter.__package_slug}}/conf/settings.py` — update the existing class, never create a new one. Use `SecretStr` / `SecretBytes` for sensitive data. Optional settings default to `None`, never `""`. All fields use `Field(description=...)`.
 
-```python
-# File: {{cookiecutter.__package_slug}}/conf/settings.py
-from pydantic import Field, SecretStr
-from pydantic_settings import BaseSettings, SettingsConfigDict
-
-class Settings(BaseSettings):
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        extra="ignore",
-    )
-
-    project_name: str = Field(default="MyProject", description="Project name")
-
-    # Good: Using SecretStr for sensitive data
-    database_password: SecretStr = Field(
-        description="Database password"
-    )
-
-    # Good: Optional field defaults to None
-    api_key: str | None = Field(
-        default=None,
-        description="Optional API key for external service"
-    )
-
-    # Good: Using Field with description
-    max_connections: int = Field(
-        default=10,
-        description="Maximum number of database connections"
-    )
-```
+See the `pydantic-settings` skill for full conventions and examples.
 
 {%- if cookiecutter.include_fastapi == "y" %}
 
 ### FastAPI
 
-* APIs must adhere as closely as possible to REST principles, including appropriate use of GET/PUT/POST/DELETE HTTP verbs.
-* All routes must use Pydantic models for input and output.
-* Use different Pydantic models for inputs and outputs (i.e., creating a `Post` must require a `PostCreate` and return a `PostRead` model, not reuse the same model).
-* Parameters in Pydantic models for user input must use the Field function with validation and descriptions.
+Follow REST principles with appropriate HTTP verbs (GET/POST/PUT/DELETE). Use separate Pydantic models for input and output (`PostCreate` / `PostRead` / `PostUpdate`). Never reuse the same model. All input model fields use `Field()` with validation and a description.
 
-```python
-from uuid import UUID
-
-from fastapi import APIRouter, HTTPException, status
-from pydantic import BaseModel, Field
-
-router = APIRouter()
-
-class PostCreate(BaseModel):
-    title: str = Field(min_length=1, max_length=200, description="Post title")
-    content: str = Field(min_length=1, description="Post content")
-
-class PostRead(BaseModel):
-    id: UUID
-    title: str
-    content: str
-    created_at: str
-
-class PostUpdate(BaseModel):
-    title: str | None = Field(default=None, max_length=200)
-    content: str | None = None
-
-@router.post("/posts", response_model=PostRead, status_code=status.HTTP_201_CREATED)
-async def create_post(post: PostCreate) -> PostRead:
-    # Use different model for input (PostCreate) and output (PostRead)
-    pass
-
-@router.get("/posts/{post_id}", response_model=PostRead)
-async def get_post(post_id: UUID) -> PostRead:
-    pass
-
-@router.put("/posts/{post_id}", response_model=PostRead)
-async def update_post(post_id: UUID, post: PostUpdate) -> PostRead:
-    pass
-
-@router.delete("/posts/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_post(post_id: UUID) -> None:
-    pass
-```
+See the `fastapi-routes` skill for full conventions, the router pattern, and code examples.
 
 {%- endif %}
 
@@ -307,47 +232,9 @@ async def delete_post(post_id: UUID) -> None:
 
 ### SQLAlchemy
 
-* Always use async SQLAlchemy APIs with SQLAlchemy 2.0 syntax.
-* Represent database tables with the declarative class system.
-* Use Alembic to define migrations.
-* Migrations must be compatible with both SQLite and PostgreSQL.
-* When creating queries, do not use implicit `and`: instead use the `and_` function (instead of `where(Model.parameter_a == A, Model.parameter_b == B)` do `where(and_(Model.parameter_a == A, Model.parameter_b == B))`).
+Use async SQLAlchemy 2.0 with the declarative class system. Models live in `{{cookiecutter.__package_slug}}/models/`. Use Alembic for all schema changes (migrations must work on both SQLite and PostgreSQL). Always use explicit `and_()` in queries — no implicit AND.
 
-```python
-from uuid import UUID, uuid4
-
-from sqlalchemy import and_, select
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import Mapped, mapped_column
-
-from {{cookiecutter.__package_slug}}.models.base import Base
-
-class User(Base):
-    __tablename__ = "users"
-
-    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
-    email: Mapped[str] = mapped_column(unique=True)
-    name: Mapped[str]
-    is_active: Mapped[bool] = mapped_column(default=True)
-
-# Good: Async query with explicit and_()
-async def get_active_user(session: AsyncSession, email: str, name: str) -> User | None:
-    stmt = select(User).where(
-        and_(
-            User.email == email,
-            User.name == name,
-            User.is_active == True
-        )
-    )
-    result = await session.execute(stmt)
-    return result.scalar_one_or_none()
-
-# Bad: Implicit and (avoid this)
-async def get_user_bad(session: AsyncSession, email: str, name: str) -> User | None:
-    stmt = select(User).where(User.email == email, User.name == name)
-    result = await session.execute(stmt)
-    return result.scalar_one_or_none()
-```
+See the `sqlalchemy-models` skill for full conventions, model patterns, migration commands, and SQLite/PostgreSQL compatibility notes.
 
 {%- endif %}
 
@@ -355,54 +242,17 @@ async def get_user_bad(session: AsyncSession, email: str, name: str) -> User | N
 
 ### Typer
 
-* Any CLI command or script that must be accessible to users must be exposed via the Typer library.
-* The main CLI entrypoint must be `PACKAGE_NAME/cli.py`.
-* For async commands, use the `@syncify` decorator provided in `cli.py` to convert async functions to sync for Typer compatibility.
+Expose user-facing commands via Typer. The main CLI entrypoint is `{{cookiecutter.__package_slug}}/cli.py`. Use the `@syncify` decorator (from `{{cookiecutter.__package_slug}}/cli.py`) for async commands — never use `asyncio.run()` directly. Use `Annotated[]` for all arguments and options.
 
-```python
-import typer
-from typing import Annotated
-
-from {{cookiecutter.__package_slug}}.cli import syncify
-
-app = typer.Typer()
-
-@app.command()
-def process(
-    input_file: Annotated[str, typer.Argument(help="Path to input file")],
-    output_file: Annotated[str | None, typer.Option(help="Path to output file")] = None,
-    verbose: Annotated[bool, typer.Option("--verbose", "-v", help="Enable verbose output")] = False,
-) -> None:
-    """Process the input file and generate output."""
-    if verbose:
-        typer.echo(f"Processing {input_file}...")
-    # Processing logic here
-    typer.echo("Done!")
-
-@app.command()
-@syncify
-async def fetch(
-    url: Annotated[str, typer.Argument(help="URL to fetch data from")],
-) -> None:
-    """Fetch data from a URL asynchronously."""
-    # Async operations here (database queries, HTTP requests, etc.)
-    typer.echo(f"Fetching from {url}")
-
-if __name__ == "__main__":
-    app()
-```
+See the `typer-cli` skill for full patterns and examples.
 
 {%- endif %}
 
 ### Testing
 
-* Do not wrap test functions in classes unless there is a specific technical reason: instead prefer single functions.
-* All fixtures must be defined or imported in `conftest.py` so they are available to all tests.
-* Do not use mocks to replace simple dataclasses or Pydantic models unless absolutely necessary: instead create an instance of the appropriate class with desired parameters.
-* Use the FastAPI Test Client (preferably with a fixture) rather than calling FastAPI router classes directly.
-* Use a test database fixture with memory-backed SQLite for tests requiring a database. Including a dependency override for this test database as part of the FastAPI App fixture is extremely useful.
-* When adding new code, you must also add appropriate tests to cover that new code.
-* The test suite file structure must mirror the main code file structure.
+Prefer standalone test functions over test classes. All fixtures must be in `conftest.py`. Test file structure mirrors the main code structure. Do not mock simple dataclasses or Pydantic models — construct real instances. When adding new code, add tests to cover it.
+
+See the `python-testing` skill for FastAPI test client patterns, memory SQLite database fixtures, and testing conventions.
 
 ### Files
 
@@ -411,12 +261,12 @@ if __name__ == "__main__":
 * Developer documentation must live in `docs/dev`.
 * New developer documents must be added to the table of contents in `docs/dev/README.md`.
 * Files only meant for building containers must live in the `docker/` folder.
-* Database models must live in `PACKAGE_NAME/models/`.
-* The primary settings file must live in `PACKAGE_NAME/conf/settings.py`.
+* Database models must live in `{{cookiecutter.__package_slug}}/models/`.
+* The primary settings file must live in `{{cookiecutter.__package_slug}}/conf/settings.py`.
 
 ### Developer Environments
 
-* Common developer tasks must be defined in the `makefile` to easy reuse.
+* Common developer tasks must be defined in the `makefile` to ease reuse.
 * Developers must always be able to start a fully functional developer instance with `docker compose up`.
 * Developer environments must be initialized with fake data for easy use.
 * Developer settings must live in the `.env` file, which must be in `.gitignore`.
