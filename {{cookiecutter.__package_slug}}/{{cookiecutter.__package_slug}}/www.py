@@ -34,3 +34,8 @@ app.mount("/static", StaticFiles(directory=static_file_path), name="static")
 @app.get("/", include_in_schema=False)
 async def root() -> RedirectResponse:
     return RedirectResponse("/docs")
+
+
+@app.get("/health")
+async def health() -> dict[str, str]:
+    return {"status": "ok"}

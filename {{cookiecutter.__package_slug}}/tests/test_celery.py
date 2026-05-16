@@ -1,4 +1,5 @@
 """Tests for Celery task queue configuration."""
+import logging
 import pytest
 from {{cookiecutter.__package_slug}}.celery import celery, hello_world
 
@@ -37,14 +38,14 @@ def test_hello_world_task_name():
     assert hello_world.name == "{{cookiecutter.__package_slug}}.celery.hello_world"
 
 
-def test_hello_world_execution(capsys):
+def test_hello_world_execution(caplog):
     """Test that hello_world task executes without error."""
+    caplog.set_level(logging.INFO)
     # Run the task directly (not async)
     hello_world()
 
-    # Check that it printed the expected message
-    captured = capsys.readouterr()
-    assert "Hello World!" in captured.out
+    # Check that it logged the expected message
+    assert "Hello World!" in caplog.text
 
 
 def test_periodic_task_setup_exists():
