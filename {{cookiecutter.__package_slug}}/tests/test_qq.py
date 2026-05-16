@@ -79,28 +79,25 @@ def test_reader_is_async():
 
 
 @pytest.mark.asyncio
-async def test_reader_with_integer(capsys):
+async def test_reader_with_integer(caplog):
     """Test reader with an integer identifier."""
     await reader(42)
-    captured = capsys.readouterr()
-    assert "42" in captured.out
+    assert "42" in caplog.text
 
 
 @pytest.mark.asyncio
-async def test_reader_with_string(capsys):
+async def test_reader_with_string(caplog):
     """Test reader with a string identifier."""
     await reader("test_value")
-    captured = capsys.readouterr()
-    assert "test_value" in captured.out
+    assert "test_value" in caplog.text
 
 
 @pytest.mark.asyncio
-async def test_reader_prints_output(capsys):
-    """Test that reader prints its identifier."""
+async def test_reader_prints_output(caplog):
+    """Test that reader logs its identifier."""
     test_id = "test_123"
     await reader(test_id)
-    captured = capsys.readouterr()
-    assert test_id in captured.out
+    assert test_id in caplog.text
 
 
 def test_runner_configured_correctly():

@@ -75,3 +75,10 @@ def test_basic_health(fastapi_client):
     """Test basic application health by accessing root."""
     response = fastapi_client.get("/")
     assert response.status_code in [200, 307], "App should respond to requests"
+
+
+def test_health_check(fastapi_client):
+    """Test that the health endpoint returns ok."""
+    response = fastapi_client.get("/health")
+    assert response.status_code == 200
+    assert response.json() == {"status": "ok"}
